@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Logowanie: Zakłady</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .login-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-login {
+      background-color: white;
+      border: 2px solid #28a745;
+      color: #28a745;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-login:hover {
+      background-color: #28a745;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="container">
+  <div class="login-container mt-4 mb-4">
+    <h2>Logowanie</h2>
+    <form action="#" th:action="@{/authenticateTheUser}" method="POST">
+      <div class="mb-3">
+        <label for="username" class="form-label">Użytkownik</label>
+        <input type="text" class="form-control" id="username" name="username">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Hasło</label>
+        <input type="password" class="form-control" id="password" name="password">
+      </div>
+      <div class="alert alert-danger w-100" th:if="${param.error}">
+        <i>Nieprawidłowe poświadczenia lub nieaktywne konto</i>
+      </div>
+      <div class="text-center">
+        <input type="submit" class="btn btn-login w-100" value="Zaloguj się">
+      </div>
+      <div class="alert alert-success w-100 mt-3" th:if="${param.logout}">
+        <i>Poprawne wylogowanie</i>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .error-container {
+      margin-top: 100px;
+      text-align: center;
+    }
+
+    .error-code {
+      font-size: 120px;
+    }
+
+    .error-message {
+      font-size: 24px;
+      margin-bottom: 40px;
+    }
+
+    .back-home {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-home:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 error-container">
+      <h1 class="error-code">404</h1>
+      <p class="error-message">Ups! Strona nie znaleziona</p>
+      <p>Przepraszamy, ale strona, której szukasz, być może została usunięta lub jest tymczasowo niedostępna.</p>
+      <a th:href="@{/}" class="back-home">Powrót do strony głównej</a>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
