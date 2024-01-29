@@ -53,3 +53,13 @@ VALUES
 (1, 1),
 (1,2),
 (1,3);
+
+CREATE TABLE `user_details` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  
+  CONSTRAINT `FK_USER_DETAILS` FOREIGN KEY (`user_id`) 
+  REFERENCES `user` (`id`) 
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

@@ -19,7 +19,8 @@ public class BettingWebsiteApplication {
 
 		return runner -> {
 			User user = userService.findByUserName("admin");
-			System.out.println(user);
+			System.out.println(user.getUserDetails());
+			System.out.println(user.getRoles());
 		};
 	}
 

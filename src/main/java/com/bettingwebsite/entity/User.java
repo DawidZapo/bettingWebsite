@@ -22,6 +22,9 @@ public class User {
     @Column(name = "enabled")
     private boolean enabled;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserDetails userDetails;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -38,11 +41,12 @@ public class User {
     }
 
     public User(String userName, String password, boolean enabled,
-                Collection<Role> roles) {
+                Collection<Role> roles, UserDetails userDetails) {
         this.userName = userName;
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
+        this.userDetails = userDetails;
     }
 
     public Long getId() {
@@ -85,6 +89,14 @@ public class User {
         this.roles = roles;
     }
 
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -92,6 +104,7 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
+                ", userDetails=" + userDetails +
                 ", roles=" + roles +
                 '}';
     }
