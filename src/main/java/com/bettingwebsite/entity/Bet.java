@@ -1,8 +1,10 @@
 package com.bettingwebsite.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalTime;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "bet")
@@ -24,22 +26,26 @@ public class Bet {
     @Column(name = "succeed")
     private Boolean succeed;
     @Column(name = "created_at")
-    private LocalTime createdAt;
+    @CreationTimestamp
+    private Timestamp createdAt;
     @Column(name = "updated_at")
-    private LocalTime updatedAt;
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 
     public Bet() {
     }
 
-    public Bet(User user, Match match, Double amount, String betOn, LocalTime createdAt) {
+    public Bet(User user, Match match, Double amount, String betOn) {
         this.user = user;
         this.match = match;
         this.amount = amount;
         this.betOn = betOn;
-        this.createdAt = createdAt;
     }
-
-    public Bet(Long id, User user, Match match, Double amount, String betOn, Boolean succeed, LocalTime createdAt, LocalTime updatedAt) {
+    public Bet(Double amount, String betOn) {
+        this.amount = amount;
+        this.betOn = betOn;
+    }
+    public Bet(Long id, User user, Match match, Double amount, String betOn, Boolean succeed, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.user = user;
         this.match = match;
@@ -98,19 +104,19 @@ public class Bet {
         this.succeed = succeed;
     }
 
-    public LocalTime getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalTime createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
-    public LocalTime getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalTime updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

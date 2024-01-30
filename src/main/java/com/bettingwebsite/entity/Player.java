@@ -2,6 +2,8 @@ package com.bettingwebsite.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "player")
 public class Player {
@@ -19,6 +21,12 @@ public class Player {
 
     @Column(name = "seeded")
     private Integer seeded;
+
+    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
+    private List<Match> matchesAsPlayer1;
+
+    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
+    private List<Match> matchesAsPlayer2;
 
     public Player() {
     }
@@ -66,6 +74,22 @@ public class Player {
 
     public void setSeeded(Integer seeded) {
         this.seeded = seeded;
+    }
+
+    public List<Match> getMatchesAsPlayer1() {
+        return matchesAsPlayer1;
+    }
+
+    public void setMatchesAsPlayer1(List<Match> matchesAsPlayer1) {
+        this.matchesAsPlayer1 = matchesAsPlayer1;
+    }
+
+    public List<Match> getMatchesAsPlayer2() {
+        return matchesAsPlayer2;
+    }
+
+    public void setMatchesAsPlayer2(List<Match> matchesAsPlayer2) {
+        this.matchesAsPlayer2 = matchesAsPlayer2;
     }
 
     @Override

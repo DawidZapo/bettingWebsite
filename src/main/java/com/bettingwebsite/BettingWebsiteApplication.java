@@ -32,8 +32,10 @@ public class BettingWebsiteApplication {
 			else{
 				throw new RuntimeException();
 			}
-			System.out.println(bet.getUser());
-			System.out.println(bet.getUser().getBets().get(0).getUser());
+
+			betRepository.delete(bet);
+			System.out.println(bet);
+
 		};
 	}
 

@@ -2,6 +2,7 @@ package com.bettingwebsite.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -119,5 +120,14 @@ public class User {
                 ", userDetails=" + userDetails +
                 ", roles=" + roles +
                 '}';
+    }
+
+    public void addBet(Bet bet, Match match){
+        if(bets == null){
+            bets = new ArrayList<>();
+        }
+        bets.add(bet);
+        bet.setUser(this);
+        bet.setMatch(match);
     }
 }

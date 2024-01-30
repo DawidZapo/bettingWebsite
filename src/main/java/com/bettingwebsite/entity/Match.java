@@ -24,13 +24,14 @@ public class Match {
     private Double matchDuration;
     @Column(name = "round")
     private String round;
-    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bet> bets;
     @ManyToOne
-    @JoinColumn(name = "player1_id")
+    @JoinColumn(name = "player1_id", referencedColumnName = "id")
     private Player player1;
+
     @ManyToOne
-    @JoinColumn(name = "player2_id")
+    @JoinColumn(name = "player2_id", referencedColumnName = "id")
     private Player player2;
     @Column(name = "player1_odds")
     private Double player1Odds;
@@ -174,6 +175,7 @@ public class Match {
     public void setWinner(String winner) {
         this.winner = winner;
     }
+
 
     @Override
     public String toString() {

@@ -101,8 +101,8 @@ CREATE TABLE bet (
     amount DOUBLE,
     bet_on VARCHAR(255),
     succeed TINYINT(1),
-    created_at TIME,
-    updated_at TIME,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES user(id),
     FOREIGN KEY (match_to_bet_id) REFERENCES match_to_bet(id)
