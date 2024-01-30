@@ -6,7 +6,7 @@ SET foreign_key_checks = 0;
 SET foreign_key_checks = 1;
 
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` char(80) NOT NULL,
   `enabled` tinyint NOT NULL,  
@@ -19,7 +19,7 @@ VALUES
 
 
 CREATE TABLE `role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
@@ -30,8 +30,8 @@ VALUES
 
 
 CREATE TABLE `users_roles` (
-  `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `user_id` BIGINT NOT NULL,
+  `role_id` BIGINT NOT NULL,
   
   PRIMARY KEY (`user_id`,`role_id`),
   
@@ -55,11 +55,55 @@ VALUES
 (1,3);
 
 CREATE TABLE `user_details` (
-  `id` INT AUTO_INCREMENT PRIMARY KEY,
-  `user_id` INT NOT NULL,
+  `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT NOT NULL,
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   
   CONSTRAINT `FK_USER_DETAILS` FOREIGN KEY (`user_id`) 
   REFERENCES `user` (`id`) 
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+
+
+USE betting;
+
+CREATE TABLE player (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    seeded INT
+);
+
+CREATE TABLE match_to_bet (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    match_date DATE,
+    match_time TIME,
+    court_number VARCHAR(50),
+    match_duration DOUBLE,
+    round VARCHAR(50),
+    player1_id BIGINT,
+    player2_id BIGINT,
+    player1_odds DOUBLE,
+    player2_odds DOUBLE,
+    score VARCHAR(30),
+    winner VARCHAR(255),
+    
+    foreign key (player1_id) references player(id),
+    foreign key (player2_id) references player(id)
+);
+USE betting;
+CREATE TABLE bet (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    match_to_bet_id BIGINT,
+    amount DOUBLE,
+    bet_on VARCHAR(255),
+    succeed TINYINT(1),
+    created_at TIME,
+    updated_at TIME,
+    
+    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (match_to_bet_id) REFERENCES match_to_bet(id)
+);
