@@ -1,5 +1,6 @@
 package com.bettingwebsite.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,10 +14,12 @@ public class Bet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "match_to_bet_id")
     private Match match;
     @Column(name = "amount")

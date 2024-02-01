@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Betting Website</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style></style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary bg-light navbar-custom">
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <ul class="navbar-nav mr-auto mx-4">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Mecze</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Podsumowanie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Konto</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap align-items-center justify-content-center">
+        <a>
+            <img width="250" height="50" src="/images/roland-garros-long.png">
+        </a>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <div class="user-info m-3">
+            Konto: <strong th:text="${username}"></strong>
+            <i class="fa-solid fa-user mx-1"></i>
+        </div>
+
+        <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
+            <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">
+                Wyloguj się
+                <i class="fa-solid fa-right-from-bracket mx-2"></i>
+            </button>
+        </form>
+    </div>
+
+
+</nav>
+
+<div class="mx-3">
+    <div class="card mb-4">
+        <div class="card-header">
+            <form th:action="@{/}" class="d-flex flex-wrap">
+                <div class="col-md-4 text-center">
+                    <h4 th:text="${matchForHTML.getPolishNameForHTML(round)}"></h4>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control mr-2 text-center" name="round">
+                        <option th:value="0" disabled selected>Wybierz rundę</option>
+                        <option th:each="round : ${rounds}" th:value="${round}"
+                                th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4 text-center">
+                    <button type="submit" class="btn btn-success w-50">Wyszukaj rundę</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-center">
+                <div class="card col-md-6 mb-2" th:each="match : ${matches}">
+                    <div class="card-header text-center"
+                         th:text="${match.matchDate.toString() + ' ' + match.matchTime.toString()}"></div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-sm-2">
+                                        <input class="form-control text-center" readonly
+                                               th:value="${match.player1Odds}">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input class="form-control text-center fw-bold" readonly
+                                               th:value="${match.player1.firstName + ' ' + match.player1.lastName}">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input class="form-control text-center fw-bold" readonly
+                                               th:value="${match.player2.firstName + ' ' + match.player2.lastName}">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="form-control text-center" readonly
+                                               th:value="${match.player2Odds}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-sm-2">
+                                        <input class="col-sm-2 form-control text-center" type="number" step="any" placeholder="Obstaw">
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input class="col-sm-8 form-control text-center" readonly th:value="${match.score != null ? match.score : ''}">
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <input class="col-sm-2 form-control text-center" type="number" step="any" placeholder="Obstaw">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <p class="fst-italic">Roland Garros 2024 Paris</p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

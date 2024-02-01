@@ -1,5 +1,6 @@
 package com.bettingwebsite.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public class Player {
     @Column(name = "seeded")
     private Integer seeded;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
     private List<Match> matchesAsPlayer1;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
     private List<Match> matchesAsPlayer2;
 

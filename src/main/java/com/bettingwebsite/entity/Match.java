@@ -194,4 +194,17 @@ public class Match {
                 ", winner='" + winner + '\'' +
                 '}';
     }
+
+    public String getPolishNameForHTML(String round){
+        switch(round){
+            case "round1" ->{return "1. Runda";}
+            case "round2" ->{return "2. Runda";}
+            case "round3" ->{return "3. Runda";}
+            case "round4" ->{return "4. Runda";}
+            case "quarter-final" ->{return "Ćwierćfinały";}
+            case "semi-final" -> {return "Półfinały";}
+            case "final" ->{return "Finały";}
+            default -> {return "Błąd";}
+        }
+    }
 }
