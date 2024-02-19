@@ -59,6 +59,7 @@ CREATE TABLE `user_details` (
   `user_id` BIGINT NOT NULL,
   first_name VARCHAR(255),
   last_name VARCHAR(255),
+  points double,
   
   CONSTRAINT `FK_USER_DETAILS` FOREIGN KEY (`user_id`) 
   REFERENCES `user` (`id`) 

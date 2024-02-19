@@ -1,6 +1,8 @@
 package com.bettingwebsite.controller;
 
 import com.bettingwebsite.entity.Match;
+import com.bettingwebsite.entity.User;
+import com.bettingwebsite.service.UserService;
 import com.bettingwebsite.service.match.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,10 +17,12 @@ import java.util.List;
 @Controller
 public class MainController {
     private MatchService matchService;
+    private UserService userService;
 
     @Autowired
-    public MainController(MatchService matchService) {
+    public MainController(MatchService matchService, UserService userService) {
         this.matchService = matchService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -27,6 +31,9 @@ public class MainController {
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             model.addAttribute("username", username);
+
+            User user = userService.findByUserName(username);
+            model.addAttribute("userDetails", user.getUserDetails());
         }
 
         List<String> rounds = matchService.findDistinctByRound();
