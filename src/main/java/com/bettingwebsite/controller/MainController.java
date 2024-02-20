@@ -30,11 +30,12 @@ public class MainController {
     @GetMapping("/")
     public String showMatches(Model model, @RequestParam(name = "round", required = false)String round){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
         if (authentication != null && authentication.isAuthenticated()) {
             String username = authentication.getName();
             model.addAttribute("username", username);
 
-            User user = userService.findByUserName(username);
+            user = userService.findByUserName(username);
             model.addAttribute("userDetails", user.getUserDetails());
         }
 
@@ -48,6 +49,7 @@ public class MainController {
         model.addAttribute("matchForHTML", new Match());
 
         List<Match> matches = matchService.findMatchesByRound(round);
+
         model.addAttribute("matches",matches);
 
         model.addAttribute("atpChecked", true);

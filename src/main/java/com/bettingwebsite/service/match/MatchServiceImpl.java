@@ -2,6 +2,7 @@ package com.bettingwebsite.service.match;
 
 import com.bettingwebsite.dao.MatchRepository;
 import com.bettingwebsite.entity.Match;
+import com.bettingwebsite.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,5 +45,10 @@ public class MatchServiceImpl implements MatchService {
             throw new RuntimeException("Did not found match id: " + id);
         }
         return match;
+    }
+
+    @Override
+    public List<Match> findMatchesByRoundAndUser(String round, User user) {
+        return matchRepository.findMatchesByRoundAndUser(round,user);
     }
 }

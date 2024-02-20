@@ -65,13 +65,13 @@
                     <div class="form-check mx-4">
                         <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${atpChecked}">
                         <label class="form-check-label" for="atpCheckbox">
-                            ATP
+                            <img src="/images/atp.png" height="20" width="42">
                         </label>
                     </div>
                     <div class="form-check mx-4">
                         <input class="form-check-input" type="checkbox" value="" id="wtaCheckbox" th:checked="${wtaChecked}">
                         <label class="form-check-label" for="wtaCheckbox">
-                            WTA
+                            <img src="/images/wta.png" height="20" width="47">
                         </label>
                     </div>
                 </div>
@@ -80,8 +80,22 @@
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-center">
                 <div class="card col-md-6 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-atp="${match.atp}">
-                    <div class="card-header text-center"
-                         th:text="${match.matchDate.toString() + ' ' + match.matchTime.toString()}"></div>
+                    <div class="card-header text-center d-flex">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                            <th:block th:if="${match.atp}">
+                                <img src="/images/atp.png" height="20" width="42">
+                            </th:block>
+                            <th:block th:if="${!match.atp}">
+                                <img src="/images/wta.png" height="20" width="47">
+                            </th:block>
+                        </div>
+                        <div class="col-sm-8" th:text="${match.matchDate.toString() + ' ' + match.matchTime.toString()}">
+
+                        </div>
+                        <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-12">
@@ -91,12 +105,12 @@
                                                th:value="${match.player1Odds}">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input class="form-control text-center fw-bold" readonly
-                                               th:value="${match.player1.firstName + ' ' + match.player1.lastName}">
+                                        <input readonly
+                                               th:value="${match.player1.firstName + ' ' + match.player1.lastName}" th:classappend="${match.player1 eq match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input class="form-control text-center fw-bold" readonly
-                                               th:value="${match.player2.firstName + ' ' + match.player2.lastName}">
+                                        <input readonly
+                                               th:value="${match.player2.firstName + ' ' + match.player2.lastName}" th:classappend="${match.player2 eq match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
                                     </div>
                                     <div class="col-sm-2">
                                         <input class="form-control text-center" readonly
