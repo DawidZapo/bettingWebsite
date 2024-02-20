@@ -24,8 +24,9 @@ public class Bet {
     private Match match;
     @Column(name = "amount")
     private Double amount;
-    @Column(name = "bet_on")
-    private String betOn;
+    @ManyToOne
+    @JoinColumn(name = "bet_on_player_id")
+    private Player betOnPlayer;
     @Column(name = "expected_win")
     private Double expectedWin;
     @Column(name = "succeed")
@@ -40,23 +41,23 @@ public class Bet {
     public Bet() {
     }
 
-    public Bet(User user, Match match, Double amount, String betOn) {
+    public Bet(User user, Match match, Double amount, Player betOnPlayer) {
         this.user = user;
         this.match = match;
         this.amount = amount;
-        this.betOn = betOn;
+        this.betOnPlayer = betOnPlayer;
     }
-    public Bet(Double amount, String betOn, Double expectedWin) {
+    public Bet(Double amount, Player betOnPlayer, Double expectedWin) {
         this.amount = amount;
-        this.betOn = betOn;
+        this.betOnPlayer = betOnPlayer;
         this.expectedWin = expectedWin;
     }
-    public Bet(Long id, User user, Match match, Double amount, String betOn,Double expectedWin, Boolean succeed, Timestamp createdAt, Timestamp updatedAt) {
+    public Bet(Long id, User user, Match match, Double amount, Player betOnPlayer,Double expectedWin, Boolean succeed, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.user = user;
         this.match = match;
         this.amount = amount;
-        this.betOn = betOn;
+        this.betOnPlayer = betOnPlayer;
         this.expectedWin = expectedWin;
         this.succeed = succeed;
         this.createdAt = createdAt;
@@ -95,12 +96,12 @@ public class Bet {
         this.amount = amount;
     }
 
-    public String getBetOn() {
-        return betOn;
+    public Player getBetOnPlayer() {
+        return betOnPlayer;
     }
 
-    public void setBetOn(String betOn) {
-        this.betOn = betOn;
+    public void setBetOnPlayer(Player betOnPlayer) {
+        this.betOnPlayer = betOnPlayer;
     }
 
     public Double getExpectedWin() {
@@ -140,7 +141,6 @@ public class Bet {
         return "Bet{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", betOn='" + betOn + '\'' +
                 ", succeed=" + succeed +
                 ", expectedWin=" + expectedWin +
                 ", createdAt=" + createdAt +

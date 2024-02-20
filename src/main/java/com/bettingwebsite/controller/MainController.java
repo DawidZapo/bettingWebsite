@@ -2,6 +2,7 @@ package com.bettingwebsite.controller;
 
 import com.bettingwebsite.entity.Bet;
 import com.bettingwebsite.entity.Match;
+import com.bettingwebsite.entity.Player;
 import com.bettingwebsite.entity.User;
 import com.bettingwebsite.service.UserService;
 import com.bettingwebsite.service.match.MatchService;
@@ -82,7 +83,7 @@ public class MainController {
             Match match = matchService.findById(matchId);
 
             Double expectedWin = (getOdds(playerToBet,match) * betValue);
-            Bet bet = new Bet(betValue,playerToBet,expectedWin);
+            Bet bet = new Bet(betValue,getPlayerToBet(playerToBet,match),expectedWin);
 
             user.addBet(bet,match);
             user.getUserDetails().setPoints(user.getUserDetails().getPoints()-betValue);
@@ -97,6 +98,15 @@ public class MainController {
         }
         else{
             return match.getPlayer2Odds();
+        }
+    }
+
+    private Player getPlayerToBet(String player, Match match){
+        if(player.equals("player1")){
+            return match.getPlayer1();
+        }
+        else{
+            return match.getPlayer2();
         }
     }
 }

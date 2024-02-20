@@ -41,8 +41,9 @@ public class Match {
     private Double player2Odds;
     @Column(name = "score")
     private String score;
-    @Column(name = "winner")
-    private String winner;
+    @ManyToOne
+    @JoinColumn(name = "winner", referencedColumnName = "id")
+    private Player winner;
 
     public Match() {
     }
@@ -58,7 +59,7 @@ public class Match {
         this.player2Odds = player2Odds;
     }
 
-    public Match(Long id, LocalDate matchDate, LocalTime matchTime, String courtNumber, Double matchDuration,Boolean atp, String round, List<Bet> bets, Player player1, Player player2, Double player1Odds, Double player2Odds, String score, String winner) {
+    public Match(Long id, LocalDate matchDate, LocalTime matchTime, String courtNumber, Double matchDuration,Boolean atp, String round, List<Bet> bets, Player player1, Player player2, Double player1Odds, Double player2Odds, String score, Player winner) {
         this.id = id;
         this.matchDate = matchDate;
         this.matchTime = matchTime;
@@ -179,14 +180,13 @@ public class Match {
         this.score = score;
     }
 
-    public String getWinner() {
+    public Player getWinner() {
         return winner;
     }
 
-    public void setWinner(String winner) {
+    public void setWinner(Player winner) {
         this.winner = winner;
     }
-
 
     @Override
     public String toString() {
