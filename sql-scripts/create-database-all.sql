@@ -91,10 +91,11 @@ CREATE TABLE match_to_bet (
     player1_odds DOUBLE,
     player2_odds DOUBLE,
     score VARCHAR(30),
-    winner VARCHAR(255),
+    winner BIGINT,
     
     foreign key (player1_id) references player(id),
-    foreign key (player2_id) references player(id)
+    foreign key (player2_id) references player(id),
+    foreign key (winner) references player(id)
 );
 USE betting;
 CREATE TABLE bet (
@@ -102,12 +103,13 @@ CREATE TABLE bet (
     user_id BIGINT,
     match_to_bet_id BIGINT,
     amount DOUBLE,
-    bet_on VARCHAR(255),
+    bet_on_player_id BIGINT,
     expected_win DOUBLE,
     succeed TINYINT(1),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
     
     FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (match_to_bet_id) REFERENCES match_to_bet(id)
+    FOREIGN KEY (match_to_bet_id) REFERENCES match_to_bet(id),
+    FOREIGN KEY (bet_on_player_id) REFERENCES player(id)
 );
