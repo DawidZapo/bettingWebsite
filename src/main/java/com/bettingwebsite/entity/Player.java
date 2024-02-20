@@ -8,20 +8,18 @@ import java.util.List;
 @Entity
 @Table(name = "player")
 public class Player {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
     @Column(name = "first_name")
     private String firstName;
-
     @Column(name = "last_name")
     private String lastName;
-
     @Column(name = "seeded")
     private Integer seeded;
+    @Column(name = "atp")
+    private Boolean atp;
 
     @JsonIgnore
     @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
@@ -40,11 +38,12 @@ public class Player {
         this.seeded = seeded;
     }
 
-    public Player(Long id, String firstName, String lastName, Integer seeded) {
+    public Player(Long id, String firstName, String lastName, Integer seeded,Boolean atp) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.seeded = seeded;
+        this.atp = atp;
     }
 
     public Long getId() {
@@ -79,6 +78,14 @@ public class Player {
         this.seeded = seeded;
     }
 
+    public Boolean getAtp() {
+        return atp;
+    }
+
+    public void setAtp(Boolean atp) {
+        this.atp = atp;
+    }
+
     public List<Match> getMatchesAsPlayer1() {
         return matchesAsPlayer1;
     }
@@ -102,6 +109,7 @@ public class Player {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", seeded=" + seeded +
+                ", atp=" + atp +
                 '}';
     }
 }

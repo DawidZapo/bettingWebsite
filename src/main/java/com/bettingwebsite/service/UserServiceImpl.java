@@ -2,8 +2,8 @@ package com.bettingwebsite.service;
 
 import com.bettingwebsite.dao.RoleDao;
 import com.bettingwebsite.dao.UserDao;
-import com.bettingwebsite.entity.User;
 import com.bettingwebsite.entity.Role;
+import com.bettingwebsite.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,9 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     private UserDao userDao;
-
     private RoleDao roleDao;
 
     @Autowired

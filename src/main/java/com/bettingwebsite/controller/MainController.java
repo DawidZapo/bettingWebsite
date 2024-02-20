@@ -1,5 +1,6 @@
 package com.bettingwebsite.controller;
 
+import com.bettingwebsite.entity.Bet;
 import com.bettingwebsite.entity.Match;
 import com.bettingwebsite.entity.User;
 import com.bettingwebsite.service.UserService;
@@ -48,6 +49,54 @@ public class MainController {
         List<Match> matches = matchService.findMatchesByRound(round);
         model.addAttribute("matches",matches);
 
+        model.addAttribute("atpChecked", true);
+        model.addAttribute("wtaChecked", true);
+
         return "matches";
+    }
+
+    @GetMapping("/processPointsSubmission")
+    public String processPointsSubmission(@RequestParam("arguments")String arguments){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (authentication != null && authentication.isAuthenticated()) {
+            String username = authentication.getName();
+            user = userService.findByUserName(username);
+        }
+
+
+        String[] parts = arguments.split(";");
+        for (String part : parts) {
+            System.out.println(part);
+            double betValue = Double.parseDouble(part.substring(0, part.indexOf("inputMatch")));
+
+            Long matchId = Long.parseLong(part.substring(part.indexOf("inputMatch") + 10, part.indexOf("player")));
+
+            String playerToBet = part.contains("player1") ? "player1" : "player2";
+
+            System.out.println("Wartość zakładu: " + betValue);
+            System.out.println("ID meczu: " + matchId);
+            System.out.println("PlayerToBet: " + playerToBet);
+            System.out.println("=============");
+
+            Match match = matchService.findById(matchId);
+
+            Double expectedWin = (getOdds(playerToBet,match) * betValue);
+            Bet bet = new Bet(betValue,playerToBet,expectedWin);
+
+            user.addBet(bet,match);
+            user.getUserDetails().setPoints(user.getUserDetails().getPoints()-betValue);
+            userService.save(user);
+        }
+        return "redirect:/";
+    }
+
+    private double getOdds(String player, Match match){
+        if(player.equals("player1")){
+            return match.getPlayer1Odds();
+        }
+        else{
+            return match.getPlayer2Odds();
+        }
     }
 }

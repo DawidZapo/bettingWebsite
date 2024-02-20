@@ -26,6 +26,8 @@ public class Bet {
     private Double amount;
     @Column(name = "bet_on")
     private String betOn;
+    @Column(name = "expected_win")
+    private Double expectedWin;
     @Column(name = "succeed")
     private Boolean succeed;
     @Column(name = "created_at")
@@ -44,16 +46,18 @@ public class Bet {
         this.amount = amount;
         this.betOn = betOn;
     }
-    public Bet(Double amount, String betOn) {
+    public Bet(Double amount, String betOn, Double expectedWin) {
         this.amount = amount;
         this.betOn = betOn;
+        this.expectedWin = expectedWin;
     }
-    public Bet(Long id, User user, Match match, Double amount, String betOn, Boolean succeed, Timestamp createdAt, Timestamp updatedAt) {
+    public Bet(Long id, User user, Match match, Double amount, String betOn,Double expectedWin, Boolean succeed, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.user = user;
         this.match = match;
         this.amount = amount;
         this.betOn = betOn;
+        this.expectedWin = expectedWin;
         this.succeed = succeed;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -99,6 +103,14 @@ public class Bet {
         this.betOn = betOn;
     }
 
+    public Double getExpectedWin() {
+        return expectedWin;
+    }
+
+    public void setExpectedWin(Double expectedWin) {
+        this.expectedWin = expectedWin;
+    }
+
     public Boolean getSucceed() {
         return succeed;
     }
@@ -130,6 +142,7 @@ public class Bet {
                 ", amount=" + amount +
                 ", betOn='" + betOn + '\'' +
                 ", succeed=" + succeed +
+                ", expectedWin=" + expectedWin +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

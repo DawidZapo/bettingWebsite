@@ -22,6 +22,8 @@ public class Match {
     private String courtNumber;
     @Column(name = "match_duration")
     private Double matchDuration;
+    @Column(name = "atp")
+    private Boolean atp;
     @Column(name = "round")
     private String round;
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,12 +58,13 @@ public class Match {
         this.player2Odds = player2Odds;
     }
 
-    public Match(Long id, LocalDate matchDate, LocalTime matchTime, String courtNumber, Double matchDuration, String round, List<Bet> bets, Player player1, Player player2, Double player1Odds, Double player2Odds, String score, String winner) {
+    public Match(Long id, LocalDate matchDate, LocalTime matchTime, String courtNumber, Double matchDuration,Boolean atp, String round, List<Bet> bets, Player player1, Player player2, Double player1Odds, Double player2Odds, String score, String winner) {
         this.id = id;
         this.matchDate = matchDate;
         this.matchTime = matchTime;
         this.courtNumber = courtNumber;
         this.matchDuration = matchDuration;
+        this.atp = atp;
         this.round = round;
         this.bets = bets;
         this.player1 = player1;
@@ -110,6 +113,14 @@ public class Match {
 
     public void setMatchDuration(Double matchDuration) {
         this.matchDuration = matchDuration;
+    }
+
+    public Boolean getAtp() {
+        return atp;
+    }
+
+    public void setAtp(Boolean atp) {
+        this.atp = atp;
     }
 
     public String getRound() {
@@ -185,6 +196,7 @@ public class Match {
                 ", matchTime=" + matchTime +
                 ", courtNumber='" + courtNumber + '\'' +
                 ", matchDuration=" + matchDuration +
+                ", atp=" + atp +
                 ", round='" + round + '\'' +
                 ", player1=" + player1 +
                 ", player2=" + player2 +

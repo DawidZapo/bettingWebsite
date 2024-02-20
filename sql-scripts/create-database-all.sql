@@ -74,7 +74,8 @@ CREATE TABLE player (
 	id BIGINT PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
-    seeded INT
+    seeded INT,
+    atp TINYINT(1)
 );
 
 CREATE TABLE match_to_bet (
@@ -83,6 +84,7 @@ CREATE TABLE match_to_bet (
     match_time TIME,
     court_number VARCHAR(50),
     match_duration DOUBLE,
+    atp TINYINT(1),
     round VARCHAR(50),
     player1_id BIGINT,
     player2_id BIGINT,
@@ -101,6 +103,7 @@ CREATE TABLE bet (
     match_to_bet_id BIGINT,
     amount DOUBLE,
     bet_on VARCHAR(255),
+    expected_win DOUBLE,
     succeed TINYINT(1),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,

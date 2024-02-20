@@ -61,14 +61,25 @@
                                 th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
                     </select>
                 </div>
-                <div class="col-md-4 text-center">
-                    <h4 th:text="'Punkty | ' + ${userDetails.points}"></h4>
+                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${atpChecked}">
+                        <label class="form-check-label" for="atpCheckbox">
+                            ATP
+                        </label>
+                    </div>
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="wtaCheckbox" th:checked="${wtaChecked}">
+                        <label class="form-check-label" for="wtaCheckbox">
+                            WTA
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-center">
-                <div class="card col-md-6 mb-2" th:each="match : ${matches}">
+                <div class="card col-md-6 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-atp="${match.atp}">
                     <div class="card-header text-center"
                          th:text="${match.matchDate.toString() + ' ' + match.matchTime.toString()}"></div>
                     <div class="card-body">
@@ -96,13 +107,13 @@
                             <div class="col-sm-12">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-sm-2">
-                                        <input th:id="'match' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
+                                        <input th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
                                     </div>
                                     <div class="col-sm-8">
                                         <input class="col-sm-8 form-control text-center" readonly th:value="${match.score != null ? match.score : ''}">
                                     </div>
                                     <div class="col-sm-2">
-                                        <input th:id="'match' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
+                                        <input th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
                                     </div>
                                 </div>
                             </div>
@@ -124,7 +135,7 @@
                     <div th:text="'Cześć, ' + ${userDetails.firstName} + '! Gotowy obstawić mecze?'"></div>
                 </div>
                 <div class="col-sm-4">
-                    <button id="saveBtn" class="btn btn-outline-success w-100">Zapisz</button>
+                    <button id="saveBtn" class="btn btn-success w-100" onclick="submitPoints()">Zapisz</button>
                 </div>
             </div>
     </div>
@@ -152,5 +163,7 @@
 <div id="toast" class="toast text-center"></div>
 <script src="/js/handleRoundSelectChange.js"></script>
 <script src="/js/handleAddingPointsToBet.js"></script>
+<script src="/js/handleMatchFilters.js"></script>
+<script src="/js/handlePointsSubmission.js"></script>
 </body>
 </html>

@@ -20,4 +20,5 @@
     width: 500px;
     height: 123px;
     z-index: 999; /* Upewniamy się, że okienko będzie zawsze na wierzchu */
+    background-color: #f0f0f0;
 }

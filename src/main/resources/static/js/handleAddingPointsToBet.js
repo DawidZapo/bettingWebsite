@@ -1,23 +1,42 @@
 function updateSum() {
     let sumPlayer1 = 0;
     let sumPlayer2 = 0;
+    let arguments = '';
 
     // Pobranie wszystkich inputów dla gracza 1
-    const inputsPlayer1 = document.querySelectorAll('input[id^="match"][id$="player1"]');
+    const inputsPlayer1 = document.querySelectorAll('input[id^="inputMatch"][id$="player1"]');
     inputsPlayer1.forEach(input => {
-        sumPlayer1 += parseFloat(input.value) || 0;
+        let value = parseFloat(input.value) || 0;
+        sumPlayer1 += value;
+
+        if(value > 0){
+            arguments += input.value;
+            arguments += input.id.toString();
+            arguments += ';';
+        }
+        // console.log(input.id);
+        // console.log(arguments);
     });
 
     // Pobranie wszystkich inputów dla gracza 2
-    const inputsPlayer2 = document.querySelectorAll('input[id^="match"][id$="player2"]');
+    const inputsPlayer2 = document.querySelectorAll('input[id^="inputMatch"][id$="player2"]');
     inputsPlayer2.forEach(input => {
-        sumPlayer2 += parseFloat(input.value) || 0;
+        let value = parseFloat(input.value) || 0;
+        sumPlayer1 += value;
+
+        if(value > 0){
+            arguments += input.value;
+            arguments += input.id.toString();
+            arguments += ';';
+        }
+        // console.log(input.id);
+        // console.log(arguments);
+        // console.log(input.id);
     });
 
     // Aktualizacja sumy dla wszystkich graczy
     let totalSum = sumPlayer1 + sumPlayer2;
     totalSum = parseFloat(totalSum.toFixed(2));
-    console.log('Suma dla wszystkich graczy:', totalSum);
 
     const saveBtn = document.getElementById("saveBtn");
     const investedPoints = document.getElementById("investedPoints");
@@ -25,7 +44,7 @@ function updateSum() {
 
     const currentPointsValue = parseFloat(currentPoints.innerText);
 
-    investedPoints.innerHTML = totalSum;
+    investedPoints.innerHTML = totalSum.toString();
 
     if(totalSum > currentPointsValue){
         saveBtn.disabled = true;
@@ -39,10 +58,18 @@ function updateSum() {
         saveBtn.disabled = false;
         hideToast();
     }
+
+    const bottomBox = document.getElementById("bottom-box");
+    if(totalSum === 0){
+        bottomBox.style.display = 'none';
+    }
+    else{
+        bottomBox.style.display = 'block';
+    }
 }
 
 // Dodanie nasłuchiwania zdarzeń dla inputów
-document.querySelectorAll('input[id^="match"]').forEach(input => {
+document.querySelectorAll('input[id^="inputMatch"]').forEach(input => {
     input.addEventListener('input', updateSum);
 });
 
@@ -81,5 +108,8 @@ function validateInput(input) {
 
     // Ustaw przefiltrowaną wartość w polu input
     input.value = value;
-    console.log(value);
+    // console.log(value);
+
 }
+
+updateSum();
