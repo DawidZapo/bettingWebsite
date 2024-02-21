@@ -49,11 +49,14 @@ public class MainController {
         model.addAttribute("matchForHTML", new Match());
 
         List<Match> matches = matchService.findMatchesByRound(round);
+        List<Match> filteredMatchesByUser = Match.filterMatchesByUser(matches,user);
 
-        model.addAttribute("matches",matches);
+        model.addAttribute("matches",filteredMatchesByUser);
 
         model.addAttribute("atpChecked", true);
         model.addAttribute("wtaChecked", true);
+
+
 
         return "matches";
     }
@@ -102,7 +105,6 @@ public class MainController {
             return match.getPlayer2Odds();
         }
     }
-
     private Player getPlayerToBet(String player, Match match){
         if(player.equals("player1")){
             return match.getPlayer1();

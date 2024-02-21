@@ -21,7 +21,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "ORDER BY m.matchDate, m.matchTime")
     List<Match> findMatchesByRound(String round);
 
-    @Query("SELECT m FROM Match m JOIN FETCH m.bets b WHERE m.round = :round AND b.user = :user")
-    List<Match> findMatchesByRoundAndUser(@Param("round") String round, @Param("user") User user);
+    @Query("SELECT DISTINCT m FROM Match m JOIN FETCH m.bets b WHERE b.user = :user AND m.round =:round")
+    List<Match> findMatchesByRoundAndUser(@Param("user") User user, @Param("round")String round);
 
 }

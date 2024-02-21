@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "match_to_bet")
@@ -218,5 +220,22 @@ public class Match {
             case "final" ->{return "Finały";}
             default -> {return "Błąd";}
         }
+    }
+
+    public static List<Match> filterMatchesByUser(List<Match> matches, User user) {
+        List<Match> filteredMatches = new ArrayList<>();
+        for (Match match : matches) {
+            List<Bet> userBetsInMatch = match.getBets().stream()
+                    .filter(bet -> bet.getUser().equals(user))
+                    .collect(Collectors.toList());
+
+            Match filteredMatch = new Match(match.getId(), match.getMatchDate(), match.getMatchTime(),
+                    match.getCourtNumber(), match.getMatchDuration(), match.getAtp(), match.getRound(),
+                    userBetsInMatch, match.getPlayer1(), match.getPlayer2(), match.getPlayer1Odds(),
+                    match.getPlayer2Odds(), match.getScore(), match.getWinner());
+            filteredMatches.add(filteredMatch);
+
+        }
+        return filteredMatches;
     }
 }
