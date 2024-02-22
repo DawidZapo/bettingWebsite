@@ -121,33 +121,37 @@
                             <div class="col-sm-12">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-sm-2">
-                                        <th:block th:if="${match.bets.size()==1}">
-                                            <th:block th:if="${match.bets.get(0).betOnPlayer eq match.player1}">
-                                                <input th:value="${match.bets.get(0).amount}" th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
-                                            </th:block>
-                                            <th:block th:if="${match.bets.get(0).betOnPlayer != match.player1}">
-                                                <input th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
-                                            </th:block>
-                                        </th:block>
-                                        <th:block th:if="${match.bets.size()==0}">
-                                            <input th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
-                                        </th:block>
+<!--                                        <th:block th:if="${match.bets.size()!=0}">-->
+<!--                                            <th:block th:if="${match.bets.get(0).betOnPlayer eq match.player1}">-->
+<!--                                                <input th:value="${match.bets.get(0).amount}" th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">-->
+<!--                                            </th:block>-->
+<!--                                            <th:block th:if="${match.bets.get(0).betOnPlayer != match.player1}">-->
+<!--                                                <input th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">-->
+<!--                                            </th:block>-->
+<!--                                        </th:block>-->
+<!--                                        <th:block th:if="${match.bets.size()==0}">-->
+<!--                                            <input th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">-->
+<!--                                        </th:block>-->
+                                        <input th:id="'inputMatch' + ${match.id} + 'player1'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
+
                                     </div>
                                     <div class="col-sm-8">
                                         <input class="col-sm-8 form-control text-center" readonly th:value="${match.score != null ? match.score : ''}">
                                     </div>
                                     <div class="col-sm-2">
-                                        <th:block th:if="${match.bets.size()==1}">
-                                            <th:block th:if="${match.bets.get(0).betOnPlayer eq match.player2}">
-                                                <input th:value="${match.bets.get(0).amount}" th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
-                                            </th:block>
-                                            <th:block th:if="${match.bets.get(0).betOnPlayer != match.player2}">
-                                                <input th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
-                                            </th:block>
-                                        </th:block>
-                                        <th:block th:if="${match.bets.size()==0}">
-                                            <input th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
-                                        </th:block>
+<!--                                        <th:block th:if="${match.bets.size()==1}">-->
+<!--                                            <th:block th:if="${match.bets.get(0).betOnPlayer eq match.player2}">-->
+<!--                                                <input th:value="${match.bets.get(0).amount}" th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">-->
+<!--                                            </th:block>-->
+<!--                                            <th:block th:if="${match.bets.get(0).betOnPlayer != match.player2}">-->
+<!--                                                <input th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">-->
+<!--                                            </th:block>-->
+<!--                                        </th:block>-->
+<!--                                        <th:block th:if="${match.bets.size()==0}">-->
+<!--                                            <input th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">-->
+<!--                                        </th:block>-->
+                                        <input th:id="'inputMatch' + ${match.id} + 'player2'" class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw" oninput="validateInput(this)">
+
                                     </div>
                                 </div>
                             </div>
@@ -199,5 +203,27 @@
 <script src="/js/handleAddingPointsToBet.js"></script>
 <script src="/js/handleMatchFilters.js"></script>
 <script src="/js/handlePointsSubmission.js"></script>
+<script src="/js/classes.js"></script>
+<script th:inline="javascript">
+
+    var matches = /*[[${matches}]]*/ [];
+
+    for(let match of matches){
+        for(let bet of match.bets){
+            const inputPlayer1 = document.getElementById('inputMatch'+match.id+'player1');
+            const inputPlayer2 = document.getElementById('inputMatch'+match.id+'player2');
+            if(bet.betOnPlayer.id === match.player1.id){
+                inputPlayer1.value = bet.amount;
+            }
+            else if(bet.betOnPlayer.id === match.player2.id){
+                inputPlayer2.value = bet.amount;
+            }
+            else{
+                console.log("Błąd");
+            }
+        }
+    }
+
+</script>
 </body>
 </html>

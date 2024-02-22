@@ -238,4 +238,14 @@ public class Match {
         }
         return filteredMatches;
     }
+    public static Match filterMatchByUser(Match match, User user) {
+        List<Bet> userBetsInMatch = match.getBets().stream()
+                .filter(bet -> bet.getUser().equals(user))
+                .collect(Collectors.toList());
+
+        return new Match(match.getId(), match.getMatchDate(), match.getMatchTime(),
+                match.getCourtNumber(), match.getMatchDuration(), match.getAtp(), match.getRound(),
+                userBetsInMatch, match.getPlayer1(), match.getPlayer2(), match.getPlayer1Odds(),
+                match.getPlayer2Odds(), match.getScore(), match.getWinner());
+    }
 }

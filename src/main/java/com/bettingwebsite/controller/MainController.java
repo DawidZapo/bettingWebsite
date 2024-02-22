@@ -86,6 +86,7 @@ public class MainController {
             System.out.println("=============");
 
             Match match = matchService.findById(matchId);
+            Match filteredMatch = Match.filterMatchByUser(match,user);
 
             Double expectedWin = (getOdds(playerToBet,match) * betValue);
             Bet bet = new Bet(betValue,getPlayerToBet(playerToBet,match),expectedWin);
