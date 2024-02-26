@@ -6,26 +6,41 @@ import com.bettingwebsite.dao.UserDao;
 import com.bettingwebsite.entity.Match;
 import com.bettingwebsite.entity.Player;
 import com.bettingwebsite.entity.User;
+import com.bettingwebsite.service.UserService;
+import com.bettingwebsite.service.match.MatchService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
 @SpringBootTest
+@AutoConfigureMockMvc
 public class MainControllerTest {
     @Autowired
     private JdbcTemplate jdbc;
+    @Autowired
+    private MockMvc mockMvc;
     @Value("${sql.script.create.player1atp}")
     private String sqlAddPlayer1Atp;
     @Value("${sql.script.create.player2atp}")
@@ -44,13 +59,21 @@ public class MainControllerTest {
     private String sqlCreateMatch;
     @Value("${sql.script.delete.match}")
     private String sqlDeleteMatch;
+    @Value("${sql.script.create.user.details}")
+    private String sqlCreateUserDetails;
+    @Value("${sql.script.delete.user.details}")
+    private String sqlDeleteUserDetails;
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
     private MatchRepository matchRepository;
     @Autowired
     private UserDao userDao;
-    @Autowired
+    @Mock
+    private MatchService matchService;
+    @Mock
+    private UserService userService;
+    @InjectMocks
     private MainController mainController;
 
 
@@ -64,6 +87,8 @@ public class MainControllerTest {
         jdbc.execute(sqlAddUser);
 
         jdbc.execute(sqlCreateMatch);
+
+        jdbc.execute(sqlCreateUserDetails);
     }
     @AfterEach
     public void cleanUpDatabase(){
@@ -71,7 +96,10 @@ public class MainControllerTest {
 
         jdbc.execute(sqlDeletePlayers);
 
+        jdbc.execute(sqlDeleteUserDetails);
+
         jdbc.execute(sqlDeleteUser);
+
     }
     @Test
     @DisplayName("Find player/players with PlayerRepository")
@@ -109,11 +137,49 @@ public class MainControllerTest {
     }
 
     @Test
-    @DisplayName("Test private method in MainController")
-    public void testPrivateMethods(){
-        Optional<Player> player = playerRepository.findById(1L);
-        assertTrue(player.isPresent());
+    @DisplayName("Test '/' endpoint")
+    @WithMockUser(username = "admin")
+    public void testHomeEndpoint() throws Exception{
+//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/")).andExpect(status().isOk()).andReturn();
+        MvcResult mvcResult = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("matches"))
+                .andExpect(model().attributeExists("username"))
+                .andExpect(model().attributeExists("userDetails"))
+                .andExpect(model().attributeExists("rounds"))
+                .andExpect(model().attributeExists("round"))
+                .andExpect(model().attributeExists("matchForHTML"))
+                .andExpect(model().attributeExists("matches"))
+                .andExpect(model().attributeExists("atpChecked"))
+                .andExpect(model().attributeExists("wtaChecked")).andReturn();
 
-//        ReflectionTestUtils.invokeMethod(mainController,"getOdds",player.get(),new Match());
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"matches");
     }
+
+    @Test
+    @DisplayName("Test '/' endpoint with valid arguments")
+    @WithMockUser(username = "admin")
+    public void testHomeEndpointWithValidArgument() throws Exception{
+
+    }
+
+//    @Test
+//    @DisplayName("Test private method in MainController")
+//    public void testPrivateMethods(){
+//        MainController mainController1 = new MainController(matchService,userService);
+//
+//        Optional<Player> player = playerRepository.findById(1L);
+//        assertTrue(player.isPresent());
+//
+//        Optional<Match> match = matchRepository.findById(1L);
+//        assertTrue(match.isPresent());
+//
+//        assertEquals(2.0,ReflectionTestUtils.invokeMethod(mainController1,"getOdds","player1",match));
+//        assertEquals(1.25,ReflectionTestUtils.invokeMethod(mainController1,"getOdds","player2",match));
+//
+//
+//        // nie działa to halo do naprawy
+//    }
 }

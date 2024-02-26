@@ -56,8 +56,6 @@ public class MainController {
         model.addAttribute("atpChecked", true);
         model.addAttribute("wtaChecked", true);
 
-
-
         return "matches";
     }
 
