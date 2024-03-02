@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.ModelAndViewAssert;
@@ -55,8 +56,10 @@ public class MainControllerTest {
     private String sqlAddUser;
     @Value("${sql.script.delete.user}")
     private String sqlDeleteUser;
-    @Value("${sql.script.create.match}")
-    private String sqlCreateMatch;
+    @Value("${sql.script.create.match.round1}")
+    private String sqlCreateMatchRound1;
+    @Value("${sql.script.create.match.round2}")
+    private String sqlCreateMatchRound2;
     @Value("${sql.script.delete.match}")
     private String sqlDeleteMatch;
     @Value("${sql.script.create.user.details}")
@@ -86,7 +89,8 @@ public class MainControllerTest {
 
         jdbc.execute(sqlAddUser);
 
-        jdbc.execute(sqlCreateMatch);
+        jdbc.execute(sqlCreateMatchRound1);
+        jdbc.execute(sqlCreateMatchRound2);
 
         jdbc.execute(sqlCreateUserDetails);
     }
@@ -137,6 +141,14 @@ public class MainControllerTest {
     }
 
     @Test
+    @DisplayName("Find distinct rounds")
+    public void findDistinctRounds(){
+        List<String> foundRounds = matchRepository.findDistinctByRound();
+        assertTrue(foundRounds.contains("round1"));
+        assertTrue(foundRounds.contains("round2"));
+    }
+
+    @Test
     @DisplayName("Test '/' endpoint")
     @WithMockUser(username = "admin")
     public void testHomeEndpoint() throws Exception{
@@ -162,24 +174,23 @@ public class MainControllerTest {
     @DisplayName("Test '/' endpoint with valid arguments")
     @WithMockUser(username = "admin")
     public void testHomeEndpointWithValidArgument() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(get("/?round=round1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("matches"))
+                .andExpect(model().attributeExists("username"))
+                .andExpect(model().attributeExists("userDetails"))
+                .andExpect(model().attributeExists("rounds"))
+                .andExpect(model().attributeExists("round"))
+                .andExpect(model().attributeExists("matchForHTML"))
+                .andExpect(model().attributeExists("matches"))
+                .andExpect(model().attributeExists("atpChecked"))
+                .andExpect(model().attributeExists("wtaChecked")).andReturn();
 
+        MockHttpServletRequest request = mvcResult.getRequest();
+        assertEquals("round1",request.getParameter("round"));
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"matches");
     }
 
-//    @Test
-//    @DisplayName("Test private method in MainController")
-//    public void testPrivateMethods(){
-//        MainController mainController1 = new MainController(matchService,userService);
-//
-//        Optional<Player> player = playerRepository.findById(1L);
-//        assertTrue(player.isPresent());
-//
-//        Optional<Match> match = matchRepository.findById(1L);
-//        assertTrue(match.isPresent());
-//
-//        assertEquals(2.0,ReflectionTestUtils.invokeMethod(mainController1,"getOdds","player1",match));
-//        assertEquals(1.25,ReflectionTestUtils.invokeMethod(mainController1,"getOdds","player2",match));
-//
-//
-//        // nie działa to halo do naprawy
-//    }
 }
