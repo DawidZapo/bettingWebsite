@@ -1,8 +1,10 @@
 package com.bettingwebsite.controller;
 
+import com.bettingwebsite.dao.BetRepository;
 import com.bettingwebsite.dao.MatchRepository;
 import com.bettingwebsite.dao.PlayerRepository;
 import com.bettingwebsite.dao.UserDao;
+import com.bettingwebsite.entity.Bet;
 import com.bettingwebsite.entity.Match;
 import com.bettingwebsite.entity.Player;
 import com.bettingwebsite.entity.User;
@@ -66,10 +68,16 @@ public class MainControllerTest {
     private String sqlCreateUserDetails;
     @Value("${sql.script.delete.user.details}")
     private String sqlDeleteUserDetails;
+    @Value("${sql.script.create.bet}")
+    private String sqlCreateBet;
+    @Value("${sql.script.delete.bet}")
+    private String sqlDeleteBet;
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
     private MatchRepository matchRepository;
+    @Autowired
+    private BetRepository betRepository;
     @Autowired
     private UserDao userDao;
     @Mock
@@ -92,10 +100,14 @@ public class MainControllerTest {
         jdbc.execute(sqlCreateMatchRound1);
         jdbc.execute(sqlCreateMatchRound2);
 
+        jdbc.execute(sqlCreateBet);
+
         jdbc.execute(sqlCreateUserDetails);
     }
     @AfterEach
     public void cleanUpDatabase(){
+        jdbc.execute(sqlDeleteBet);
+
         jdbc.execute(sqlDeleteMatch);
 
         jdbc.execute(sqlDeletePlayers);
@@ -191,6 +203,22 @@ public class MainControllerTest {
 
         ModelAndView mav = mvcResult.getModelAndView();
         ModelAndViewAssert.assertViewName(mav,"matches");
+    }
+
+    @Test
+    @DisplayName("Test own query in BetRepository")
+    public void testBetRepository(){
+        Bet bet = betRepository.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(1L,1L,1L);
+        assertNotNull(bet);
+
+        Bet bet2 = betRepository.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(2L,1L,1L);
+        assertNull(bet2);
+
+        Bet bet3 = betRepository.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(1L,2L,1L);
+        assertNull(bet3);
+
+        Bet bet4 = betRepository.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(1L,1L,2L);
+        assertNull(bet4);
     }
 
 }

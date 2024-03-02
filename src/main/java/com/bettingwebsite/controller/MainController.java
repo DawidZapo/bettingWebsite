@@ -5,6 +5,7 @@ import com.bettingwebsite.entity.Match;
 import com.bettingwebsite.entity.Player;
 import com.bettingwebsite.entity.User;
 import com.bettingwebsite.service.UserService;
+import com.bettingwebsite.service.bet.BetService;
 import com.bettingwebsite.service.match.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -20,11 +21,13 @@ import java.util.List;
 public class MainController {
     private MatchService matchService;
     private UserService userService;
+    private BetService betService;
 
     @Autowired
-    public MainController(MatchService matchService, UserService userService) {
+    public MainController(MatchService matchService, UserService userService, BetService betService) {
         this.matchService = matchService;
         this.userService = userService;
+        this.betService = betService;
     }
 
     @GetMapping("/")
@@ -68,32 +71,47 @@ public class MainController {
             user = userService.findByUserName(username);
         }
 
-
+        Match matchToEditUrl = null;
         String[] parts = arguments.split(";");
         for (String part : parts) {
-            System.out.println(part);
             double betValue = Double.parseDouble(part.substring(0, part.indexOf("inputMatch")));
-
             Long matchId = Long.parseLong(part.substring(part.indexOf("inputMatch") + 10, part.indexOf("player")));
-
             String playerToBet = part.contains("player1") ? "player1" : "player2";
-
-            System.out.println("Wartość zakładu: " + betValue);
-            System.out.println("ID meczu: " + matchId);
-            System.out.println("PlayerToBet: " + playerToBet);
-            System.out.println("=============");
 
             Match match = matchService.findById(matchId);
             Match filteredMatch = Match.filterMatchByUser(match,user);
 
             Double expectedWin = (getOdds(playerToBet,match) * betValue);
-            Bet bet = new Bet(betValue,getPlayerToBet(playerToBet,match),expectedWin);
 
-            user.addBet(bet,match);
-            user.getUserDetails().setPoints(user.getUserDetails().getPoints()-betValue);
-            userService.save(user);
+            Long existingBetIdOrNull = getExistingBetIdOrNull(user, match, playerToBet);
+
+            if(existingBetIdOrNull == null){
+                Bet bet = new Bet(betValue,getPlayerToBet(playerToBet,match),expectedWin);
+                user.addBet(bet,match);
+//                user.getUserDetails().setPoints(user.getUserDetails().getPoints()-betValue);
+                userService.save(user);
+            }
+            else{
+                for(var bet : filteredMatch.getBets()){
+                    if(existingBetIdOrNull.equals(bet.getId())){
+//                        user.getUserDetails().setPoints(user.getUserDetails().getPoints() + bet.getAmount());
+                        bet.setAmount(betValue);
+                        bet.setExpectedWin(expectedWin);
+                    }
+                }
+//                user.getUserDetails().setPoints(user.getUserDetails().getPoints()-betValue);
+                userService.save(user);
+            }
+
+            matchToEditUrl = match;
         }
-        return "redirect:/";
+
+        if(matchToEditUrl!=null){
+            return "redirect:/?round="+matchToEditUrl.getRound();
+        }
+        else{
+            return "redirect:/";
+        }
     }
 
     private double getOdds(String player, Match match){
@@ -112,4 +130,12 @@ public class MainController {
             return match.getPlayer2();
         }
     }
+
+    private Long getExistingBetIdOrNull(User user,Match match,String playerToBetString){
+        Player playerToBet = getPlayerToBet(playerToBetString,match);
+        Bet bet = betService.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(user.getId(), match.getId(),playerToBet.getId());
+
+        return (bet == null) ? null : bet.getId();
+    }
+
 }
