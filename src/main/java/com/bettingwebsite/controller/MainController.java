@@ -32,15 +32,7 @@ public class MainController {
 
     @GetMapping("/")
     public String showMatches(Model model, @RequestParam(name = "round", required = false)String round){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (authentication != null && authentication.isAuthenticated()) {
-            String username = authentication.getName();
-            model.addAttribute("username", username);
-
-            user = userService.findByUserName(username);
-            model.addAttribute("userDetails", user.getUserDetails());
-        }
+        User user = LoginController.getLogonUserAndSetAttributes(model);
 
         List<String> rounds = matchService.findDistinctByRound();
         model.addAttribute("rounds", rounds);

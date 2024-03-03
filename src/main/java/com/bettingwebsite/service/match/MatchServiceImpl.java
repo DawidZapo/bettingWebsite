@@ -24,7 +24,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public List<Match> findAllByRound(String round) {
-        return matchRepository.findAllByRound(round);
+        return matchRepository.findAllByRoundOrderByMatchDateAscMatchTimeAsc(round);
     }
 
     @Override

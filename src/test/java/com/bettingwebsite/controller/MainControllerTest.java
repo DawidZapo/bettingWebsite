@@ -68,7 +68,7 @@ public class MainControllerTest {
     private String sqlCreateUserDetails;
     @Value("${sql.script.delete.user.details}")
     private String sqlDeleteUserDetails;
-    @Value("${sql.script.create.bet}")
+    @Value("${sql.script.create.bet1}")
     private String sqlCreateBet;
     @Value("${sql.script.delete.bet}")
     private String sqlDeleteBet;

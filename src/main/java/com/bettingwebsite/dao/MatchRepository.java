@@ -12,7 +12,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query("SELECT DISTINCT m.round FROM Match m")
     List<String> findDistinctByRound();
 
-    List<Match> findAllByRound(String round);
+    List<Match> findAllByRoundOrderByMatchDateAscMatchTimeAsc(String round);
 
     @Query("SELECT m FROM Match m " +
             "JOIN m.player1 p1 " +

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Betting Website</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary bg-light navbar-custom">
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <ul class="navbar-nav mr-auto mx-4">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Mecze</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/bets}">Twoje zakłady</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Konto</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap align-items-center justify-content-center">
+        <a>
+            <img width="250" height="50" src="/images/roland-garros-long.png">
+        </a>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <div class="user-info m-3">
+            Konto: <strong th:text="${username}"></strong>
+            <i class="fa-solid fa-user mx-1"></i>
+        </div>
+
+        <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
+            <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">
+                Wyloguj się
+                <i class="fa-solid fa-right-from-bracket mx-2"></i>
+            </button>
+        </form>
+    </div>
+
+
+</nav>
+
+<div class="mx-3">
+    <div class="card mb-4">
+        <div class="card-header">
+            hello
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-center align-content-center">
+                <div class="card col-sm-10">
+                    <div class="card-header">
+                        hello
+                    </div>
+                    <div class="card-body">
+                        hello
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <p class="fst-italic">Roland Garros 2024 Paris</p>
+        </div>
+    </div>
+
+</div>
+<script src="/js/classes.js"></script>
+</body>
+</html>

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface BetRepository extends JpaRepository<Bet, Long> {
     @Query("SELECT b FROM Bet b WHERE b.user.id = :userId AND b.match.id = :matchToBetId AND b.betOnPlayer.id = :betOnPlayerId")
     Bet findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(
@@ -12,4 +14,6 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
             @Param("matchToBetId") Long matchToBetId,
             @Param("betOnPlayerId") Long betOnPlayerId
     );
+
+    List<Bet> findByUserId(Long userId);
 }
