@@ -69,7 +69,7 @@
                              th:text="${bet.match.matchDate.toString() + ' ' + bet.match.matchTime.toString()}">
                         </div>
                         <div class="col-sm-1 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-check"></i>
+
                         </div>
                         <div class="col-sm-1 d-flex align-items-center justify-content-center">
 
@@ -77,8 +77,10 @@
                         <div class="col-sm-4">
                             Zakład
                         </div>
-                        <div class="col-sm-1 d-flex align-items-center justify-content-center">
-
+                        <div class="col-sm-1 d-flex align-items-center justify-content-end">
+                            <button id="deleteBetButton" class="btn btn-danger d-flex align-items-center justify-content-center" style="height: 20px" title="Usuń zakład">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -118,18 +120,20 @@
                             <div class="col-sm-6">
                                 <div class="d-flex flex-wrap">
                                     <div class="col-sm-2">
-                                        <input th:id="'inputMatch' + ${bet.match.id} + 'player1'"
-                                               class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw"
-                                               oninput="validateInput(this)">
+                                        <input th:if="${bet.betOnPlayer.id eq bet.match.player1.id}" th:id="'inputMatch' + ${bet.match.id} + 'player1'"
+                                               class="col-sm-2 form-control text-center fw-bold" type="text" th:value="${bet.amount}" readonly>
+                                        <input th:if="${bet.betOnPlayer.id != bet.match.player1.id}" th:id="'inputMatch' + ${bet.match.id} + 'player1'"
+                                               class="col-sm-2 form-control text-center" type="text" readonly>
                                     </div>
                                     <div class="col-sm-8">
                                         <input class="col-sm-8 form-control text-center" readonly
                                                th:value="${bet.match.score != null ? bet.match.score : ''}">
                                     </div>
                                     <div class="col-sm-2">
-                                        <input th:id="'inputMatch' + ${bet.match.id} + 'player2'"
-                                               class="col-sm-2 form-control text-center" type="text" placeholder="Obstaw"
-                                               oninput="validateInput(this)">
+                                        <input th:if="${bet.betOnPlayer.id eq bet.match.player2.id}" th:id="'inputMatch' + ${bet.match.id} + 'player2'"
+                                               class="col-sm-2 form-control text-center fw-bold" type="text" th:value="${bet.amount}" readonly>
+                                        <input th:if="${bet.betOnPlayer.id != bet.match.player2.id}" th:id="'inputMatch' + ${bet.match.id} + 'player2'"
+                                               class="col-sm-2 form-control text-center" type="text" readonly>
                                     </div>
                                 </div>
                             </div>
