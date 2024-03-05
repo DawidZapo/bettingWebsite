@@ -1,6 +1,7 @@
 package com.bettingwebsite.controller;
 
 import com.bettingwebsite.entity.Bet;
+import com.bettingwebsite.entity.Match;
 import com.bettingwebsite.entity.User;
 import com.bettingwebsite.service.UserService;
 import com.bettingwebsite.service.bet.BetService;
@@ -33,6 +34,11 @@ public class BetController {
         bets.sort(betComparator);
 
         model.addAttribute("bets", bets);
+        model.addAttribute("matchForHTML", new Match());
+
+        List<String> rounds = bets.stream().map(bet -> bet.getMatch().getRound()).distinct().toList();
+
+        model.addAttribute("rounds", rounds);
 
         return "bets";
     }

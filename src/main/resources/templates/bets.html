@@ -50,11 +50,35 @@
 <div class="mx-3">
     <div class="card mb-4">
         <div class="card-header">
-            hello
+            <div class="d-flex flex-wrap">
+                <div class="col-md-4 text-center">
+                    <h4>Twoje zakłady</h4>
+                </div>
+                <div class="col-md-4">
+                    <select id="roundSelect" class="form-control mr-2 text-center" name="round">
+                        <option th:value="0" disabled selected>Wybierz rundę</option>
+                        <option th:each="round : ${rounds}" th:value="${round}"
+                                th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${true}">
+                        <label class="form-check-label" for="atpCheckbox">
+                            <img src="/images/atp.png" height="20" width="42">
+                        </label>
+                    </div>
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="wtaCheckbox" th:checked="${true}">
+                        <label class="form-check-label" for="wtaCheckbox">
+                            <img src="/images/wta.png" height="20" width="47">
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            <div th:each="bet : ${bets}" th:id="'bet' + ${bet.id}"
-                 th:data-atp="${bet.match.id}">
+            <div th:each="bet : ${bets}" th:id="'bet' + ${bet.id}" th:data-atp="${bet.match.atp}" th:data-round="${bet.match.round}">
                 <div class="card col-md-12 mb-2">
                     <div class="card-header text-center d-flex">
                         <div class="col-sm-1 d-flex align-items-center justify-content-center">
@@ -68,7 +92,7 @@
                         <div class="col-sm-4"
                              th:text="${bet.match.matchDate.toString() + ' ' + bet.match.matchTime.toString()}">
                         </div>
-                        <div class="col-sm-1 d-flex align-items-center justify-content-center">
+                        <div class="col-sm-1 d-flex align-items-center justify-content-start" th:text="${matchForHTML.getPolishNameForHTML(bet.match.round)}">
 
                         </div>
                         <div class="col-sm-1 d-flex align-items-center justify-content-center">
@@ -92,14 +116,56 @@
                                                th:value="${bet.match.player1Odds}">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input readonly
-                                               th:value="${bet.match.player1.firstName + ' ' + bet.match.player1.lastName}"
-                                               th:classappend="${bet.match.player1 eq bet.match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
+                                        <th:block th:if="${bet.match.winner == null}">
+                                            <input readonly th:id="'Bet'+ ${bet.id}+'Player1NameBox'"
+                                                   th:value="${bet.match.player1.firstName + ' ' + bet.match.player1.lastName}"
+                                                   class="form-control text-center fw-bold">
+                                        </th:block>
+                                        <th:block th:if="${bet.match.winner != null}">
+                                            <th:block th:if="${bet.betOnPlayer.id == bet.match.player1.id}">
+                                                <th:block th:if="${bet.betOnPlayer.id == bet.match.winner.id}">
+                                                    <input readonly th:id="'Bet'+ ${bet.id}+'Player1NameBox'"
+                                                           th:value="${bet.match.player1.firstName + ' ' + bet.match.player1.lastName}"
+                                                           class="form-control text-center fw-bold alert alert-success my-alert">
+                                                </th:block>
+                                                <th:block th:if="${bet.betOnPlayer.id != bet.match.winner.id}">
+                                                    <input readonly th:id="'Bet'+ ${bet.id}+'Player1NameBox'"
+                                                           th:value="${bet.match.player1.firstName + ' ' + bet.match.player1.lastName}"
+                                                           class="form-control text-center fw-bold alert alert-danger my-alert">
+                                                </th:block>
+                                            </th:block>
+                                            <th:block th:if="${bet.betOnPlayer.id != bet.match.player1.id}">
+                                                <input readonly th:id="'Bet'+ ${bet.id}+'Player1NameBox'"
+                                                       th:value="${bet.match.player1.firstName + ' ' + bet.match.player1.lastName}"
+                                                       class="form-control text-center fw-bold">
+                                            </th:block>
+                                        </th:block>
                                     </div>
                                     <div class="col-sm-4">
-                                        <input readonly
-                                               th:value="${bet.match.player2.firstName + ' ' + bet.match.player2.lastName}"
-                                               th:classappend="${bet.match.player2 eq bet.match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
+                                        <th:block th:if="${bet.match.winner == null}">
+                                            <input readonly th:id="'Bet'+ ${bet.id}+'Player2NameBox'"
+                                                   th:value="${bet.match.player2.firstName + ' ' + bet.match.player2.lastName}"
+                                                   class="form-control text-center fw-bold">
+                                        </th:block>
+                                        <th:block th:if="${bet.match.winner != null}">
+                                            <th:block th:if="${bet.betOnPlayer.id == bet.match.player2.id}">
+                                                <th:block th:if="${bet.betOnPlayer.id == bet.match.winner.id}">
+                                                    <input readonly th:id="'Bet'+ ${bet.id}+'Player2NameBox'"
+                                                           th:value="${bet.match.player2.firstName + ' ' + bet.match.player2.lastName}"
+                                                           class="form-control text-center fw-bold alert alert-success my-alert">
+                                                </th:block>
+                                                <th:block th:if="${bet.betOnPlayer.id != bet.match.winner.id}">
+                                                    <input readonly th:id="'Bet'+ ${bet.id}+'Player2NameBox'"
+                                                           th:value="${bet.match.player2.firstName + ' ' + bet.match.player2.lastName}"
+                                                           class="form-control text-center fw-bold alert alert-danger my-alert">
+                                                </th:block>
+                                            </th:block>
+                                            <th:block th:if="${bet.betOnPlayer.id != bet.match.player2.id}">
+                                                <input readonly th:id="'Bet'+ ${bet.id}+'Player2NameBox'"
+                                                       th:value="${bet.match.player2.firstName + ' ' + bet.match.player2.lastName}"
+                                                       class="form-control text-center fw-bold">
+                                            </th:block>
+                                        </th:block>
                                     </div>
                                     <div class="col-sm-2">
                                         <input class="form-control text-center" readonly
@@ -166,5 +232,6 @@
 
 </div>
 <script src="/js/classes.js"></script>
+<script src="/js/handleBetSearch.js"></script>
 </body>
 </html>
