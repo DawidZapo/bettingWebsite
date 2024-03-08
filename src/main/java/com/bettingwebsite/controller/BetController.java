@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -41,5 +45,22 @@ public class BetController {
         model.addAttribute("rounds", rounds);
 
         return "bets";
+    }
+
+    @PostMapping("/bets/delete")
+    public String deleteBet(@RequestParam("id")Long id){
+        Bet bet = betService.findById(id);
+
+        LocalTime timeNow = LocalTime.now();
+        LocalDate dateNow = LocalDate.now();
+
+        System.out.println(bet.getMatch().getMatchTime());
+        System.out.println(bet.getMatch().getMatchDate());
+
+        if(!dateNow.isAfter(bet.getMatch().getMatchDate()) && timeNow.isBefore(bet.getMatch().getMatchTime())){
+            betService.deleteById(id);
+        }
+
+        return "redirect:/bets";
     }
 }

@@ -15,6 +15,7 @@ function filterMatches() {
         if(selectedRound === '0'){
             selectedRound = lastRound;
         }
+        selectElement.value = selectedRound;
 
         if (((isATPMatch && atpChecked) || (!isATPMatch && wtaChecked)) && selectedRound===certainRound) {
             card.style.display = 'block';

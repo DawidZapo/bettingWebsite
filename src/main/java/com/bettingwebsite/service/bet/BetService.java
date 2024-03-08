@@ -7,4 +7,6 @@ import java.util.List;
 public interface BetService {
     Bet findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(Long userId, Long matchToBetId, Long betOnPlayerId);
     List<Bet> findByUserId(Long userId);
+    Bet findById(Long id);
+    void deleteById(Long id);
 }

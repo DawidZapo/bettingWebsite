@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BetServiceImpl implements BetService {
@@ -24,5 +25,21 @@ public class BetServiceImpl implements BetService {
     @Override
     public List<Bet> findByUserId(Long userId) {
         return betRepository.findByUserId(userId);
+    }
+
+    @Override
+    public Bet findById(Long id) {
+        Optional<Bet> result = betRepository.findById(id);
+        if(result.isPresent()){
+            return result.get();
+        }
+        else{
+            throw new RuntimeException("Bet not found id: " + id);
+        }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        betRepository.deleteById(id);
     }
 }
