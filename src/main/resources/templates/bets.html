@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div th:each="bet : ${bets}" th:id="'bet' + ${bet.id}" th:data-atp="${bet.match.atp}" th:data-round="${bet.match.round}">
+            <div th:each="bet : ${bets}" th:id="'bet' + ${bet.id}" th:data-bet="${bet}" th:data-bet-match="${bet.match}" th:data-bet-match-date="${bet.match.matchDate}" th:data-bet-match-time="${bet.match.matchTime}" th:data-atp="${bet.match.atp}" th:data-round="${bet.match.round}">
                 <div class="card col-md-12 mb-2">
                     <div class="card-header text-center d-flex">
                         <div class="col-sm-1 d-flex align-items-center justify-content-center">
@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-sm-1 d-flex align-items-center justify-content-end">
                             <form method="post" th:action="@{/bets/delete(id=${bet.id})}">
-                                <button type="submit" id="deleteBetButton" class="btn btn-danger d-flex align-items-center justify-content-center" style="height: 20px" title="Usuń zakład">
+                                <button type="submit" th:id="'deleteBetButton'+${bet.id}" class="btn btn-danger d-flex align-items-center justify-content-center" style="height: 20px" title="Usuń zakład">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </form>
@@ -235,5 +235,6 @@
 </div>
 <script src="/js/classes.js"></script>
 <script src="/js/handleBetSearch.js"></script>
+<script src="/js/handleBetDelete.js"></script>
 </body>
 </html>
