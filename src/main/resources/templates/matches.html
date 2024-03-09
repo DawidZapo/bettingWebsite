@@ -79,7 +79,7 @@
         </div>
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-center">
-                <div class="card col-md-6 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-atp="${match.atp}">
+                <div class="card col-md-6 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-match="${match}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}" th:data-atp="${match.atp}">
                     <div class="card-header text-center d-flex">
                         <div class="col-sm-2 d-flex align-items-center justify-content-center">
                             <th:block th:if="${match.atp}">
@@ -93,7 +93,7 @@
 
                         </div>
                         <div class="col-sm-2 d-flex align-items-center justify-content-center">
-                            <i class="fa-solid fa-check"></i>
+                            <i th:id="'liveIcon'+${match.id}" class="fa-regular fa-circle-dot" style="color: red;display: none"></i>
                         </div>
                     </div>
                     <div class="card-body">
@@ -204,6 +204,7 @@
 <script src="/js/handleMatchFilters.js"></script>
 <script src="/js/handlePointsSubmission.js"></script>
 <script src="/js/classes.js"></script>
+<script src="/js/handleDisableMatch.js"></script>
 <script th:inline="javascript">
 
     var matches = /*[[${matches}]]*/ [];
