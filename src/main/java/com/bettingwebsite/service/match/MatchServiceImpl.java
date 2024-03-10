@@ -78,4 +78,9 @@ public class MatchServiceImpl implements MatchService {
         }
         return null;
     }
+
+    @Override
+    public List<Match> findAll() {
+        return matchRepository.findAll();
+    }
 }

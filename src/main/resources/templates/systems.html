@@ -1,67 +1,148 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Betting Website</title>
-  <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <style>
-  </style>
+    <meta charset="UTF-8">
+    <title>Betting Website</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+    </style>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-primary bg-light navbar-custom">
-  <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
-    <ul class="navbar-nav mr-auto mx-4">
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/}">Mecze</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/bets}">Twoje zakłady</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/}">Podsumowanie</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" th:href="@{/}">Wyniki</a>
-      </li>
-    </ul>
-  </div>
-  <div class="col-md-4  d-flex flex-wrap align-items-center justify-content-center">
-    <a>
-      <img width="250" height="50" src="/images/roland-garros-long.png">
-    </a>
-  </div>
-  <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
-    <a th:href="@{/}" class="user-info m-3" style="text-decoration: none; color: black">
-      Konto: <strong th:text="${username}"></strong>
-      <i class="fa-solid fa-user mx-1"></i>
-    </a>
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <ul class="navbar-nav mr-auto mx-4">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Mecze</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/bets}">Twoje zakłady</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Podsumowanie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Wyniki</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4  d-flex flex-wrap align-items-center justify-content-center">
+        <a>
+            <img width="250" height="50" src="/images/roland-garros-long.png">
+        </a>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <a th:href="@{/}" class="user-info m-3" style="text-decoration: none; color: black">
+            Konto: <strong th:text="${username}"></strong>
+            <i class="fa-solid fa-user mx-1"></i>
+        </a>
 
-    <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
-      <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">
-        Wyloguj się
-        <i class="fa-solid fa-right-from-bracket mx-2"></i>
-      </button>
-    </form>
-  </div>
+        <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
+            <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">
+                Wyloguj się
+                <i class="fa-solid fa-right-from-bracket mx-2"></i>
+            </button>
+        </form>
+    </div>
 
 
 </nav>
 
 <div class="mx-3">
-  <div class="card mb-4">
-    <div class="card-header">
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex flex-wrap">
+                <div class="col-md-4 text-center">
+                    <h4>Edytuj wyniki</h4>
+                </div>
+                <div class="col-md-4">
+                    <select id="roundSelect" class="form-control mr-2 text-center" name="round">
+                        <option th:value="0" disabled selected>Wybierz rundę</option>
+                        <option th:each="round : ${rounds}" th:value="${round}"
+                                th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${true}">
+                        <label class="form-check-label" for="atpCheckbox">
+                            <img src="/images/atp.png" height="20" width="42">
+                        </label>
+                    </div>
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="wtaCheckbox" th:checked="${true}">
+                        <label class="form-check-label" for="wtaCheckbox">
+                            <img src="/images/wta.png" height="20" width="47">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-center">
+                <div class="card col-md-4 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-match="${match}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}" th:data-atp="${match.atp}">
+                    <div class="card-header text-center d-flex">
+                        <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                            <th:block th:if="${match.atp}">
+                                <img src="/images/atp.png" height="20" width="42">
+                            </th:block>
+                            <th:block th:if="${!match.atp}">
+                                <img src="/images/wta.png" height="20" width="47">
+                            </th:block>
+                        </div>
+                        <div class="col-sm-8" th:text="${match.matchDate.toString() + ' ' + match.matchTime.toString()}">
 
-    </div>
-    <div class="card-body">
+                        </div>
+                        <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                            <button class="btn btn-success d-flex align-items-center justify-content-center" style="height: 20px;">
+                                <i class="fa-solid fa-check"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                                        <input type="radio" class="form-check-input" th:name="'player'+${match.id}">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input readonly
+                                               th:value="${match.player1.firstName + ' ' + match.player1.lastName}" th:classappend="${match.player1 eq match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input readonly
+                                               th:value="${match.player2.firstName + ' ' + match.player2.lastName}" th:classappend="${match.player2 eq match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
+                                    </div>
+                                    <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                                        <input type="radio" class="form-check-input" th:name="'player'+${match.id}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-sm-2">
 
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <input class="col-sm-8 form-control text-center" th:value="${match.score != null ? match.score : ''}">
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <p class="fst-italic">Roland Garros 2024 Paris</p>
+        </div>
     </div>
-    <div class="card-footer text-center">
-      <p class="fst-italic">Roland Garros 2024 Paris</p>
-    </div>
-  </div>
 
 </div>
 </body>
