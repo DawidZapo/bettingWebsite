@@ -31,6 +31,8 @@ public class Bet {
     private Double expectedWin;
     @Column(name = "succeed")
     private Boolean succeed;
+    @Column(name = "redeemed")
+    private Boolean redeemed;
     @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
@@ -51,8 +53,9 @@ public class Bet {
         this.amount = amount;
         this.betOnPlayer = betOnPlayer;
         this.expectedWin = expectedWin;
+        this.redeemed = false;
     }
-    public Bet(Long id, User user, Match match, Double amount, Player betOnPlayer,Double expectedWin, Boolean succeed, Timestamp createdAt, Timestamp updatedAt) {
+    public Bet(Long id, User user, Match match, Double amount, Player betOnPlayer,Double expectedWin, Boolean succeed,Boolean redeemed, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.user = user;
         this.match = match;
@@ -60,6 +63,7 @@ public class Bet {
         this.betOnPlayer = betOnPlayer;
         this.expectedWin = expectedWin;
         this.succeed = succeed;
+        this.redeemed = redeemed;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -120,6 +124,14 @@ public class Bet {
         this.succeed = succeed;
     }
 
+    public Boolean getRedeemed() {
+        return redeemed;
+    }
+
+    public void setRedeemed(Boolean redeemed) {
+        this.redeemed = redeemed;
+    }
+
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -136,13 +148,16 @@ public class Bet {
         this.updatedAt = updatedAt;
     }
 
+
     @Override
     public String toString() {
         return "Bet{" +
                 "id=" + id +
                 ", amount=" + amount +
-                ", succeed=" + succeed +
+                ", betOnPlayer=" + betOnPlayer +
                 ", expectedWin=" + expectedWin +
+                ", succeed=" + succeed +
+                ", redeemed=" + redeemed +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

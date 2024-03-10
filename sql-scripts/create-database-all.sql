@@ -106,6 +106,7 @@ CREATE TABLE bet (
     bet_on_player_id BIGINT,
     expected_win DOUBLE,
     succeed TINYINT(1),
+    redeemed TINYINT(1),
     created_at TIMESTAMP,
     updated_at TIMESTAMP,
     
