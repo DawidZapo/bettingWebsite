@@ -14,7 +14,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (roundValue === null) {
         var lastRound = selectElement.options[selectElement.options.length - 1].value;
-        window.location.href = '/?round=' + lastRound;
+        // window.location.href = '/?round=' + lastRound;
+        selectElement.value = lastRound;
     } else {
         selectElement.value = roundValue;
     }

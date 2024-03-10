@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Entity
@@ -247,5 +248,17 @@ public class Match {
                 match.getCourtNumber(), match.getMatchDuration(), match.getAtp(), match.getRound(),
                 userBetsInMatch, match.getPlayer1(), match.getPlayer2(), match.getPlayer1Odds(),
                 match.getPlayer2Odds(), match.getScore(), match.getWinner());
+    }
+
+    public static Map<String,Integer> getRoundsMap(){
+        return Map.ofEntries(
+                Map.entry("round1", 1),
+                Map.entry("round2", 2),
+                Map.entry("round3", 3),
+                Map.entry("round4", 4),
+                Map.entry("quarter-final", 5),
+                Map.entry("semi-final", 6),
+                Map.entry("final", 7)
+        );
     }
 }

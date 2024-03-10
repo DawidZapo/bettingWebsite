@@ -54,9 +54,6 @@ public class BetController {
         LocalTime timeNow = LocalTime.now();
         LocalDate dateNow = LocalDate.now();
 
-        System.out.println(bet.getMatch().getMatchTime());
-        System.out.println(bet.getMatch().getMatchDate());
-
         if(!dateNow.isAfter(bet.getMatch().getMatchDate()) && timeNow.isBefore(bet.getMatch().getMatchTime())){
             betService.deleteById(id);
         }
