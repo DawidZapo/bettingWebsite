@@ -32,7 +32,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/leaders/**").hasRole("MANAGER")
 //                        .requestMatchers("/systems/**").hasRole("ADMIN")
 //                        .requestMatchers("/employees/showFormForAdd").hasRole("MANAGER")
-//                        .requestMatchers("/employees/showFormForUpdate").hasRole("MANAGER")
+                        .requestMatchers("/systems").hasRole("ADMIN")
                         .requestMatchers("/webjars/bootstrap/5.3.2/**", "/images/**", "/css/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form

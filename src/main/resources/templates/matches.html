@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Betting Website</title>
@@ -21,20 +21,23 @@
                 <a class="nav-link" th:href="@{/bets}">Twoje zakłady</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/}">Konto</a>
+                <a class="nav-link" th:href="@{/}">Podsumowanie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Wyniki</a>
             </li>
         </ul>
     </div>
-    <div class="col-md-4 d-flex flex-wrap align-items-center justify-content-center">
+    <div class="col-md-4  d-flex flex-wrap align-items-center justify-content-center">
         <a>
             <img width="250" height="50" src="/images/roland-garros-long.png">
         </a>
     </div>
     <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
-        <div class="user-info m-3">
+        <a th:href="@{/}" class="user-info m-3" style="text-decoration: none; color: black">
             Konto: <strong th:text="${username}"></strong>
             <i class="fa-solid fa-user mx-1"></i>
-        </div>
+        </a>
 
         <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
             <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">

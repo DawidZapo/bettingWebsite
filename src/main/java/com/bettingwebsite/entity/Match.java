@@ -34,7 +34,6 @@ public class Match {
     @ManyToOne
     @JoinColumn(name = "player1_id", referencedColumnName = "id")
     private Player player1;
-
     @ManyToOne
     @JoinColumn(name = "player2_id", referencedColumnName = "id")
     private Player player2;
