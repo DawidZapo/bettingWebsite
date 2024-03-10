@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MainController {
@@ -52,7 +51,8 @@ public class MainController {
         model.addAttribute("atpChecked", true);
         model.addAttribute("wtaChecked", true);
 
-        isRoundEnabledForBetting(round);
+        Boolean isRoundEligibleForBetting = matchService.checkIfRoundIsEligibleForBetting(round);
+        model.addAttribute("isRoundEligibleForBetting",isRoundEligibleForBetting);
 
         return "matches";
     }
@@ -130,30 +130,6 @@ public class MainController {
         Bet bet = betService.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(user.getId(), match.getId(),playerToBet.getId());
 
         return (bet == null) ? null : bet.getId();
-    }
-
-    private <K, V> K getKeyByValue(Map<K, V> map, V value) {
-        for (Map.Entry<K, V> entry : map.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
-            }
-        }
-        return null; // lub możesz obsłużyć przypadki braku dopasowania w inny sposób
-    }
-    private Boolean isRoundEnabledForBetting(String round){
-        Map<String,Integer> roundsMap = Match.getRoundsMap();
-
-        int startingRound = roundsMap.getOrDefault(round, -1);
-
-        if (startingRound == -1) {
-            throw new RuntimeException("Round does not exists in Match.getRoundsMap()");
-        }
-
-        for (int i = startingRound -1; i >= 1; i--) {
-            String roundToCheck = getKeyByValue(roundsMap,i);
-        }
-
-        return null;
     }
 
 }

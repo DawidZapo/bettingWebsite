@@ -9,4 +9,5 @@ public interface MatchService {
     List<Match> findAllByRound(String round);
     List<Match> findMatchesByRound(String round);
     Match findById(Long id);
+    Boolean checkIfRoundIsEligibleForBetting(String round);
 }

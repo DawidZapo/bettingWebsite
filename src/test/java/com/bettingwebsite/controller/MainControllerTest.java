@@ -58,10 +58,10 @@ public class MainControllerTest {
     private String sqlAddUser;
     @Value("${sql.script.delete.user}")
     private String sqlDeleteUser;
-    @Value("${sql.script.create.match.round1}")
-    private String sqlCreateMatchRound1;
-    @Value("${sql.script.create.match.round2}")
-    private String sqlCreateMatchRound2;
+    @Value("${sql.script.create.match1.round1}")
+    private String sqlCreateMatch1Round1;
+    @Value("${sql.script.create.match2.round2}")
+    private String sqlCreateMatch2Round2;
     @Value("${sql.script.delete.match}")
     private String sqlDeleteMatch;
     @Value("${sql.script.create.user.details}")
@@ -97,8 +97,8 @@ public class MainControllerTest {
 
         jdbc.execute(sqlAddUser);
 
-        jdbc.execute(sqlCreateMatchRound1);
-        jdbc.execute(sqlCreateMatchRound2);
+        jdbc.execute(sqlCreateMatch1Round1);
+        jdbc.execute(sqlCreateMatch2Round2);
 
         jdbc.execute(sqlCreateBet);
 

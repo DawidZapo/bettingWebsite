@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -46,4 +47,35 @@ public class MatchServiceImpl implements MatchService {
         return match;
     }
 
+    @Override
+    public Boolean checkIfRoundIsEligibleForBetting(String round) {
+        Map<String,Integer> roundsMap = Match.getRoundsMap();
+
+        int startingRound = roundsMap.getOrDefault(round, -1);
+
+        if (startingRound == -1) {
+            throw new RuntimeException("Round does not exists in Match.getRoundsMap()");
+        }
+
+        for (int i = startingRound -1; i >= 1; i--) {
+            String roundToCheck = getKeyByValue(roundsMap,i);
+            if(roundToCheck == null){
+                throw new RuntimeException("Round to check not found");
+            }
+            List<Match> matches = matchRepository.findAllByRoundAndScoreIsNullAndWinnerIsNull(roundToCheck);
+            if(matches.size() != 0){
+                return false;
+            }
+        }
+
+        return true;
+    }
+    public  <K, V> K getKeyByValue(Map<K, V> map, V value) {
+        for (Map.Entry<K, V> entry : map.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
 }

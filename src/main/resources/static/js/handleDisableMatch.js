@@ -1,5 +1,4 @@
 function disableMatchAccordingToTime(){
-    console.log("Funkcja wywołana");
     const matchElements = document.querySelectorAll('[id^="match"]');
 
     matchElements.forEach(matchElement=>{
@@ -21,14 +20,21 @@ function disableMatchAccordingToTime(){
         const matchDateTime = new Date(year, month - 1, day, hours, minutes);
 
         if(currentDateTime > matchDateTime){
-            // matchElement.style.color = '#A9A9A9';
-            // matchElement.style.backgroundColor = '#F0F0F0';
-            // matchElement.style.opacity = '0.5';
             if(score == null){
                 liveIcon.style.display='block';
             }
+            else{
+                liveIcon.style.display='none';
+            }
             inputMatchPlayer1.readOnly=true;
             inputMatchPlayer2.readOnly=true;
+
+            if(inputMatchPlayer1.placeholder === 'Obstaw'){
+                inputMatchPlayer1.placeholder='';
+            }
+            if(inputMatchPlayer2.placeholder === 'Obstaw'){
+                inputMatchPlayer2.placeholder='';
+            }
             deleteBtn.disabled=true;
         }
 

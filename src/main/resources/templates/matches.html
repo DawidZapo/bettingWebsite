@@ -198,6 +198,8 @@
         </div>
     </div>
 </div>
+<div id="isEligible" th:data-is-eligible="${isRoundEligibleForBetting}"></div>
+
 <div id="toast" class="toast text-center"></div>
 <script src="/js/handleRoundSelectChange.js"></script>
 <script src="/js/handleAddingPointsToBet.js"></script>
@@ -205,6 +207,7 @@
 <script src="/js/handlePointsSubmission.js"></script>
 <script src="/js/classes.js"></script>
 <script src="/js/handleDisableMatch.js"></script>
+<script src="/js/handleDisableIsRoundEligibleForBetting.js"></script>
 <script th:inline="javascript">
 
     var matches = /*[[${matches}]]*/ [];

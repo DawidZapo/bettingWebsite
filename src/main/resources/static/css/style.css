@@ -22,3 +22,8 @@
     z-index: 999; /* Upewniamy się, że okienko będzie zawsze na wierzchu */
     background-color: #f0f0f0;
 }
+.my-disabled{
+    color: #A9A9A9;
+    background-color:#F0F0F0;
+    opacity: 0.5;
+}
