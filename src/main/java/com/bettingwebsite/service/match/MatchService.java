@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface MatchService {
     List<String> findDistinctByRound();
-    List<Match> findAllByRound(String round);
+    List<Match> findAllByRoundOrderByDateAndTime(String round);
+    List<Match> findAllByRoundAndScoreIsNullAndWinnerIsNull(String round);
     List<Match> findMatchesByRound(String round);
     Match findById(Long id);
     Boolean checkIfRoundIsEligibleForBetting(String round);

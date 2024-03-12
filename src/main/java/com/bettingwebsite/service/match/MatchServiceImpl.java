@@ -24,7 +24,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<Match> findAllByRound(String round) {
+    public List<Match> findAllByRoundOrderByDateAndTime(String round) {
         return matchRepository.findAllByRoundOrderByMatchDateAscMatchTimeAsc(round);
     }
 
@@ -87,5 +87,10 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public Match save(Match match) {
         return matchRepository.save(match);
+    }
+
+    @Override
+    public List<Match> findAllByRoundAndScoreIsNullAndWinnerIsNull(String round) {
+        return matchRepository.findAllByRoundAndScoreIsNullAndWinnerIsNull(round);
     }
 }

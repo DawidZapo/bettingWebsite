@@ -66,4 +66,17 @@ public class SystemController {
 
         return "redirect:/systems";
     }
+
+    @GetMapping("/systems/redeem")
+    public String redeemPoints(@RequestParam("round")String round){
+        List<Match> matches = matchService.findMatchesByRound(round);
+        List<Match> matchesWithoutWinner = matchService.findAllByRoundAndScoreIsNullAndWinnerIsNull(round);
+
+        if(matchesWithoutWinner.size()==0){
+            for(var match : matches){
+                betService.redeemBets(match);
+            }
+        }
+        return "redirect:/systems";
+    }
 }
