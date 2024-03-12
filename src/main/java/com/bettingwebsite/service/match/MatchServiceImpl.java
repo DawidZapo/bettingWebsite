@@ -83,4 +83,9 @@ public class MatchServiceImpl implements MatchService {
     public List<Match> findAll() {
         return matchRepository.findAll();
     }
+
+    @Override
+    public Match save(Match match) {
+        return matchRepository.save(match);
+    }
 }

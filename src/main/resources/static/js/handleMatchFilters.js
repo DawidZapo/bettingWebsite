@@ -1,5 +1,3 @@
-
-// Funkcja do filtrowania i pokazywania meczów w zależności od zaznaczonych checkboxów
 function filterMatches() {
     const atpChecked = document.getElementById('atpCheckbox').checked;
     const wtaChecked = document.getElementById('wtaCheckbox').checked;

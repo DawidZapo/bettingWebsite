@@ -11,4 +11,5 @@ public interface MatchService {
     Match findById(Long id);
     Boolean checkIfRoundIsEligibleForBetting(String round);
     List<Match> findAll();
+    Match save(Match match);
 }

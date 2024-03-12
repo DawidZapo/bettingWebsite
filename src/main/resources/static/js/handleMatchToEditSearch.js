@@ -1,13 +1,13 @@
 function filterMatches() {
     const atpChecked = document.getElementById('atpCheckbox').checked;
     const wtaChecked = document.getElementById('wtaCheckbox').checked;
-    const betCards = document.querySelectorAll('[id^="bet"]');
+    const matchCards = document.querySelectorAll('[id^="match"]');
     const selectElement = document.getElementById('roundSelect');
     let selectedRound = document.getElementById('roundSelect').value;
 
     const lastRound = selectElement.options[selectElement.options.length - 1].value;
 
-    betCards.forEach(card => {
+    matchCards.forEach(card => {
         const isATPMatch = card.getAttribute('data-atp') === 'true';
         const certainRound = card.getAttribute('data-round');
 
