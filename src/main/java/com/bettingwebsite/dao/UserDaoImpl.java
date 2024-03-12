@@ -16,10 +16,25 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public User findByUserName(String theUserName) {
-
         // retrieve/read from database using username
         TypedQuery<User> theQuery = entityManager.createQuery("from User where userName=:uName and enabled=true", User.class);
         theQuery.setParameter("uName", theUserName);
+
+        User theUser = null;
+        try {
+            theUser = theQuery.getSingleResult();
+        } catch (Exception e) {
+            theUser = null;
+        }
+
+        return theUser;
+    }
+
+    @Override
+    public User findById(Long userNameId) {
+        // retrieve/read from database using username
+        TypedQuery<User> theQuery = entityManager.createQuery("from User where id=:userId and enabled=true", User.class);
+        theQuery.setParameter("userId", userNameId);
 
         User theUser = null;
         try {

@@ -48,13 +48,15 @@ public class BetController {
     }
 
     @PostMapping("/bets/delete")
-    public String deleteBet(@RequestParam("id")Long id){
+    public String deleteBet(@RequestParam("id")Long id){;
         Bet bet = betService.findById(id);
 
         LocalTime timeNow = LocalTime.now();
         LocalDate dateNow = LocalDate.now();
 
-        if(!dateNow.isAfter(bet.getMatch().getMatchDate()) && timeNow.isBefore(bet.getMatch().getMatchTime())){
+        boolean matchNotStarted = bet.getMatch().getMatchDate().isAfter(dateNow) ||
+                (bet.getMatch().getMatchDate().isEqual(dateNow) && bet.getMatch().getMatchTime().isAfter(timeNow));
+        if(matchNotStarted){
             betService.deleteById(id);
         }
 

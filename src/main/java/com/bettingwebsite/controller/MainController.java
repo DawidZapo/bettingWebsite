@@ -37,7 +37,12 @@ public class MainController {
         List<String> rounds = matchService.findDistinctByRound();
         model.addAttribute("rounds", rounds);
         if(round == null){
-            round = rounds.get(rounds.size()-1);
+            if(!rounds.isEmpty()){
+                round = rounds.get(rounds.size()-1);
+            }
+            else{
+                round = "round1";
+            }
         }
         model.addAttribute("round", round);
 
@@ -77,6 +82,11 @@ public class MainController {
             Match filteredMatch = Match.filterMatchByUser(match,user);
 
             Double expectedWin = (getOdds(playerToBet,match) * betValue);
+
+            String stringToFormat = String.format("%.5f", expectedWin);
+            stringToFormat = stringToFormat.replace(',','.');
+
+            expectedWin = Double.parseDouble(stringToFormat);
 
             Long existingBetIdOrNull = getExistingBetIdOrNull(user, match, playerToBet);
 

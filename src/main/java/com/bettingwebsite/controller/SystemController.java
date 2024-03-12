@@ -2,6 +2,7 @@ package com.bettingwebsite.controller;
 
 import com.bettingwebsite.entity.Match;
 import com.bettingwebsite.entity.User;
+import com.bettingwebsite.service.bet.BetService;
 import com.bettingwebsite.service.match.MatchService;
 import com.bettingwebsite.service.player.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,13 @@ import java.util.List;
 public class SystemController {
     private MatchService matchService;
     private PlayerService playerService;
+    private BetService betService;
 
     @Autowired
-    public SystemController(MatchService matchService, PlayerService playerService) {
+    public SystemController(MatchService matchService, PlayerService playerService, BetService betService) {
         this.matchService = matchService;
         this.playerService = playerService;
+        this.betService = betService;
     }
 
 
@@ -42,21 +45,24 @@ public class SystemController {
     }
 
     @PostMapping("/systems/submitMatch")
-    public String submitMatch(@RequestParam("id")Long matchId,@RequestParam("selectedPlayer")Long playerId,@RequestParam("score")String score){
-        Match match = matchService.findById(matchId);
+    public String submitMatch(@RequestParam("id")Long matchId,@RequestParam(required = false, name = "selectedPlayer")Long playerId,@RequestParam("score")String score){
+        if(playerId !=null){
 
-        if(playerId.equals(match.getPlayer1().getId())){
-            match.setWinner(match.getPlayer1());
+            Match match = matchService.findById(matchId);
+            if(playerId.equals(match.getPlayer1().getId())){
+                match.setWinner(match.getPlayer1());
+            }
+            else if(playerId.equals(match.getPlayer2().getId())){
+                match.setWinner(match.getPlayer2());
+            }
+            else{
+                throw new RuntimeException("Player id: " + playerId + " not found in match id: " + matchId);
+            }
+            if(!score.isEmpty()){
+                match.setScore(score);
+            }
+            matchService.save(match);
         }
-        else if(playerId.equals(match.getPlayer2().getId())){
-            match.setWinner(match.getPlayer2());
-        }
-        else{
-            throw new RuntimeException("Player id: " + playerId + " not found in match id: " + matchId);
-        }
-        match.setScore(score);
-
-        matchService.save(match);
 
         return "redirect:/systems";
     }
