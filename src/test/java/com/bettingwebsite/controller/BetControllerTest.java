@@ -10,12 +10,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
 @SpringBootTest
@@ -137,6 +144,57 @@ public class BetControllerTest {
         List<Match> matchesRound1 = matchRepository.findAllByRoundAndScoreIsNullAndWinnerIsNull("round1");
 
         assertEquals(0,matchesRound1.size());
+    }
+
+    @Test
+    @DisplayName("Test /bets endpoint")
+    @WithMockUser(username = "admin")
+    public void testBetsEndpoint() throws Exception{
+        MvcResult mvcResult =  mockMvc.perform(get("/bets"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("bets"))
+                .andExpect(model().attributeExists("username"))
+                .andExpect(model().attributeExists("userDetails"))
+                .andExpect(model().attributeExists("bets"))
+                .andExpect(model().attributeExists("matchForHTML"))
+                .andExpect(model().attributeExists("rounds"))
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"bets");
+    }
+
+    @Test
+    @DisplayName("Test /bets/delete delete bet pre-match")
+    @WithMockUser(username = "admin")
+    public void testBetsDeletePreMatch() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(post("/bets/delete?id=4"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/bets"))
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"bets");
+
+        List<Bet> bets = betRepository.findAll();
+        assertEquals(3,bets.size());
+
+    }
+
+    @Test
+    @DisplayName("Test /bets/delete delete bet post-match")
+    @WithMockUser(username = "admin")
+    public void testBetsDeletePostMatch() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(post("/bets/delete").param("id","2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/bets"))
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"bets");
+
+        List<Bet> bets = betRepository.findAll();
+        assertEquals(4,bets.size());
 
     }
 }

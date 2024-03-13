@@ -206,6 +206,26 @@ public class MainControllerTest {
     }
 
     @Test
+    @DisplayName("Test /processPointsSubmission without argument")
+    @WithMockUser(username = "admin")
+    public void testProcessPointsSubmissionWithoutArgument() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(get("/processPointsSubmission"))
+                .andExpect(status().is4xxClientError()).andReturn();
+    }
+
+    @Test
+    @DisplayName("Test /processPointsSubmission with argument")
+    @WithMockUser(username = "admin")
+    public void testProcessPointsSubmissionWithArgument() throws Exception{
+        betRepository.deleteAll();
+        MvcResult mvcResult = mockMvc.perform(get("/processPointsSubmission?arguments=10inputMatch1player1;10inputMatch2player1"))
+                .andExpect(status().is3xxRedirection()).andReturn();
+        List<Bet> bets = betRepository.findAll();
+
+        assertEquals(2,bets.size());
+    }
+
+    @Test
     @DisplayName("Test own query in BetRepository")
     public void testBetRepository(){
         Bet bet = betRepository.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(1L,1L,1L);

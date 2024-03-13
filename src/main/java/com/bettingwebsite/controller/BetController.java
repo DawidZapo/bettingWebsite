@@ -59,7 +59,6 @@ public class BetController {
         if(matchNotStarted){
             betService.deleteById(id);
         }
-
         return "redirect:/bets";
     }
 }
