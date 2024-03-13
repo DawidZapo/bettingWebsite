@@ -77,6 +77,7 @@ public class SystemController {
                 betService.redeemBets(match);
             }
         }
+        System.out.println(round);
         return "redirect:/systems";
     }
 }

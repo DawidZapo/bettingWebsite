@@ -55,27 +55,30 @@ public class BetServiceImpl implements BetService {
         if(match.getWinner() != null){
 
             for(var bet : match.getBets()){
-                User user = userDao.findById(bet.getUser().getId());
+                if(!bet.getRedeemed()){
+                    User user = userDao.findById(bet.getUser().getId());
 
-                double currentPoints = user.getUserDetails().getPoints();
-                user.getUserDetails().setPoints(currentPoints - bet.getAmount());
+                    double currentPoints = user.getUserDetails().getPoints();
+                    user.getUserDetails().setPoints(currentPoints - bet.getAmount());
 
-                if (bet.getRedeemed() && !bet.getSucceed()) {
-                    user.getUserDetails().setPoints(currentPoints + bet.getAmount());
+
+                    bet.setRedeemed(true);
+
+                    if(bet.getBetOnPlayer().getId().equals(match.getWinner().getId())){
+                        bet.setSucceed(true);
+                        user.getUserDetails().setPoints(user.getUserDetails().getPoints() + bet.getExpectedWin());
+                    }
+                    else{
+                        bet.setSucceed(false);
+                    }
+                    String stringToFormat = String.format("%.5f", user.getUserDetails().getPoints());
+                    stringToFormat = stringToFormat.replace(',','.');
+                    Double newPoints = Double.parseDouble(stringToFormat);
+                    user.getUserDetails().setPoints(newPoints);
+
+                    userDao.save(user);
+                    betRepository.save(bet);
                 }
-
-                bet.setRedeemed(true);
-
-                if(bet.getBetOnPlayer().getId().equals(match.getWinner().getId())){
-                    bet.setSucceed(true);
-                    user.getUserDetails().setPoints(user.getUserDetails().getPoints() + bet.getExpectedWin());
-                }
-                else{
-                    bet.setSucceed(false);
-                }
-
-                userDao.save(user);
-                betRepository.save(bet);
             }
         }
     }

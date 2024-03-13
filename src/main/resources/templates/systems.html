@@ -54,8 +54,13 @@
     <div class="card mb-4">
         <div class="card-header">
             <div class="d-flex flex-wrap">
-                <div class="col-md-4 text-center">
-                    <h4>Edytuj wyniki</h4>
+                <div class="col-md-4 text-center d-flex">
+                    <a  id="redeemButton" class="btn btn-success">Redeem</a>
+                    <select id="roundRedeemSelect" class="form-control mr-2 text-center w-50">
+                        <option th:value="0" disabled selected>Wybierz rundę</option>
+                        <option th:each="round : ${rounds}" th:value="${round}"
+                                th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
+                    </select>
                 </div>
                 <div class="col-md-4">
                     <select id="roundSelect" class="form-control mr-2 text-center" name="round">
@@ -98,7 +103,7 @@
 
                             </div>
                             <div class="col-sm-2 d-flex align-items-center justify-content-center">
-                                <button th:id="'submitButton'+${match.id}" type="submit" class="btn btn-success d-flex align-items-center justify-content-center" style="height: 20px;">
+                                <button th:id="'submitButton'+${match.id}" type="submit" class="btn btn-outline-success d-flex align-items-center justify-content-center" style="height: 20px;">
                                     <i class="fa-solid fa-check"></i>
                                 </button>
                             </div>
@@ -148,5 +153,21 @@
     </div>
 </div>
 <script src="/js/handleMatchToEditSearch.js"></script>
+<script>
+    function handleRedeemLink(){
+        const redeemLink = document.getElementById('redeemButton');
+        const selectedValue = document.getElementById('roundRedeemSelect').value;
+        // redeemButton.disabled = (roundRedeemSelect.value === '0');
+        if (selectedValue === "0") {
+            redeemLink.classList.add("disabled");
+            redeemLink.removeAttribute("href");
+        } else {
+            redeemLink.classList.remove("disabled");
+            redeemLink.setAttribute("href", "/systems/redeem?round="+selectedValue);
+        }
+    }
+    document.getElementById("roundRedeemSelect").addEventListener('change',handleRedeemLink);
+    document.addEventListener("DOMContentLoaded", handleRedeemLink);
+</script>
 </body>
 </html>
