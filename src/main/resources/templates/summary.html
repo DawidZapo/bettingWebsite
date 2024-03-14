@@ -1,10 +1,177 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Betting Website</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+    </style>
 </head>
 <body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary bg-light navbar-custom">
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <ul class="navbar-nav mr-auto mx-4">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Mecze</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/bets}">Twoje zakłady</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/summary}">Podsumowanie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Wyniki</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap align-items-center justify-content-center">
+        <a>
+            <img width="250" height="50" src="/images/roland-garros-long.png">
+        </a>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <a th:href="@{/}" class="user-info m-3" style="text-decoration: none; color: black">
+            Konto: <strong th:text="${username}"></strong>
+            <i class="fa-solid fa-user mx-1"></i>
+        </a>
+
+        <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
+            <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">
+                Wyloguj się
+                <i class="fa-solid fa-right-from-bracket mx-2"></i>
+            </button>
+        </form>
+    </div>
+
+
+</nav>
+
+<div class="mx-3">
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex flex-wrap">
+                <div class="col-md-4 text-center">
+                    <h4>Zakłady uczestników</h4>
+                </div>
+                <div class="col-md-4">
+                    <select id="roundSelect" class="form-control mr-2 text-center" name="round">
+                        <option th:value="0" disabled selected>Wybierz rundę</option>
+                        <option th:each="round : ${rounds}" th:value="${round}"
+                                th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${true}">
+                        <label class="form-check-label" for="atpCheckbox">
+                            <img src="/images/atp.png" height="20" width="42">
+                        </label>
+                    </div>
+                    <div class="form-check mx-4">
+                        <input class="form-check-input" type="checkbox" value="" id="wtaCheckbox" th:checked="${true}">
+                        <label class="form-check-label" for="wtaCheckbox">
+                            <img src="/images/wta.png" height="20" width="47">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div>
+                <div class="card col-md-12 mb-2">
+                    <div class="card-header text-center d-flex">
+                        <div class="col-sm-1 d-flex align-items-center justify-content-center">
+
+                        </div>
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-center justify-content-center" style="margin-left: -10px">
+
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-center justify-content-center">
+
+                        </div>
+                        <div class="col-sm-4">
+                            Zakład
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-center justify-content-end">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-wrap justify-content-center align-content-center">
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                    <div class="col-sm-7">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-wrap">
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                    <div class="col-sm-8">
+
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="d-flex flex-wrap justify-content-center align-content-center">
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                    <div class="col-sm-3">
+
+                                    </div>
+                                    <div class="col-sm-2">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-3">
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <p class="fst-italic">Roland Garros 2024 Paris</p>
+        </div>
+    </div>
+
+</div>
 
 </body>
 </html>

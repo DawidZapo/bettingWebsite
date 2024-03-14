@@ -14,6 +14,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     List<Match> findAllByRoundOrderByMatchDateAscMatchTimeAsc(String round);
     List<Match> findAllByRoundAndScoreIsNullAndWinnerIsNull(String round);
     List<Match> findAllByRound(String round);
+    List<Match> findAllByBetsIsNotEmpty();
     @Query("SELECT m FROM Match m " +
             "JOIN m.player1 p1 " +
             "JOIN m.player2 p2 " +

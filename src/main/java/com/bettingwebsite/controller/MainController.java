@@ -62,60 +62,6 @@ public class MainController {
         return "matches";
     }
 
-//    @GetMapping("/processPointsSubmission")
-//    public String processPointsSubmission(@RequestParam("arguments")String arguments){
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        User user = null;
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            String username = authentication.getName();
-//            user = userService.findByUserName(username);
-//        }
-//
-//        Match matchToEditUrl = null;
-//        String[] parts = arguments.split(";");
-//        for (String part : parts) {
-//            double betValue = Double.parseDouble(part.substring(0, part.indexOf("inputMatch")));
-//            Long matchId = Long.parseLong(part.substring(part.indexOf("inputMatch") + 10, part.indexOf("player")));
-//            String playerToBet = part.contains("player1") ? "player1" : "player2";
-//
-//            Match match = matchService.findById(matchId);
-//            Match filteredMatch = Match.filterMatchByUser(match,user);
-//
-//            Double expectedWin = (getOdds(playerToBet,match) * betValue);
-//
-//            String stringToFormat = String.format("%.5f", expectedWin);
-//            stringToFormat = stringToFormat.replace(',','.');
-//
-//            expectedWin = Double.parseDouble(stringToFormat);
-//
-//            Long existingBetIdOrNull = getExistingBetIdOrNull(user, match, playerToBet);
-//
-//            if(existingBetIdOrNull == null){
-//                Bet bet = new Bet(betValue,getPlayerToBet(playerToBet,match),expectedWin);
-//                user.addBet(bet,match);
-//                userService.save(user);
-//            }
-//            else{
-//                for(var bet : filteredMatch.getBets()){
-//                    if(existingBetIdOrNull.equals(bet.getId())){
-//                        bet.setAmount(betValue);
-//                        bet.setExpectedWin(expectedWin);
-//                    }
-//                }
-//                userService.save(user);
-//            }
-//
-//            matchToEditUrl = match;
-//        }
-//
-//        if(matchToEditUrl!=null){
-//            return "redirect:/?round="+matchToEditUrl.getRound();
-//        }
-//        else{
-//            return "redirect:/";
-//        }
-//    }
-
     @GetMapping("/processPointsSubmission")
     public String processPointsSubmission(@RequestParam("arguments") String arguments) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -93,4 +93,9 @@ public class MatchServiceImpl implements MatchService {
     public List<Match> findAllByRoundAndScoreIsNullAndWinnerIsNull(String round) {
         return matchRepository.findAllByRoundAndScoreIsNullAndWinnerIsNull(round);
     }
+
+    @Override
+    public List<Match> findAllByBetsIsNotEmpty() {
+        return matchRepository.findAllByBetsIsNotEmpty();
+    }
 }
