@@ -1,5 +1,4 @@
 function disableBetAccordingToTime(){
-   console.log("Funkcja wywołana");
    const betElements = document.querySelectorAll('[id^="bet"]');
    const deleteButtonElements = document.querySelectorAll('[id^="deleteBetButton"]');
 

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -165,36 +166,16 @@ public class BetControllerTest {
     }
 
     @Test
-    @DisplayName("Test /bets/delete delete bet pre-match")
+    @DisplayName("Test /bets/delete delete")
     @WithMockUser(username = "admin")
     public void testBetsDeletePreMatch() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(post("/bets/delete?id=4"))
+        MvcResult mvcResult = mockMvc.perform(post("/bets/delete").param("id","3").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/bets"))
                 .andReturn();
-
-        ModelAndView mav = mvcResult.getModelAndView();
-        ModelAndViewAssert.assertViewName(mav,"bets");
 
         List<Bet> bets = betRepository.findAll();
         assertEquals(3,bets.size());
-
-    }
-
-    @Test
-    @DisplayName("Test /bets/delete delete bet post-match")
-    @WithMockUser(username = "admin")
-    public void testBetsDeletePostMatch() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(post("/bets/delete").param("id","2"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/bets"))
-                .andReturn();
-
-        ModelAndView mav = mvcResult.getModelAndView();
-        ModelAndViewAssert.assertViewName(mav,"bets");
-
-        List<Bet> bets = betRepository.findAll();
-        assertEquals(4,bets.size());
 
     }
 }

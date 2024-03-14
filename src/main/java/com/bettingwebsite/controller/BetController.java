@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 
@@ -50,15 +48,10 @@ public class BetController {
     @PostMapping("/bets/delete")
     public String deleteBet(@RequestParam("id")Long id){;
         Bet bet = betService.findById(id);
-
-        LocalTime timeNow = LocalTime.now();
-        LocalDate dateNow = LocalDate.now();
-
-        boolean matchNotStarted = bet.getMatch().getMatchDate().isAfter(dateNow) ||
-                (bet.getMatch().getMatchDate().isEqual(dateNow) && bet.getMatch().getMatchTime().isAfter(timeNow));
-        if(matchNotStarted){
+        if(bet != null){
             betService.deleteById(id);
         }
+
         return "redirect:/bets";
     }
 }
