@@ -30,8 +30,7 @@ public class SummaryController {
         model.addAttribute("rounds", rounds);
 
         List<Match> matchesWithBets = matchService.findAllByBetsIsNotEmpty();
-        model.addAttribute("matches",matchesWithBets);
-
+        model.addAttribute("matchesWithBets",matchesWithBets);
 
 
         return "summary";

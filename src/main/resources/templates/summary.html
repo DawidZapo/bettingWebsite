@@ -81,89 +81,87 @@
             </div>
         </div>
         <div class="card-body">
-            <div>
-                <div class="card col-md-12 mb-2">
-                    <div class="card-header text-center d-flex">
-                        <div class="col-sm-1 d-flex align-items-center justify-content-center">
+            <div th:each="match : ${matchesWithBets}" th:id="'match'+${match.id}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}">
+                <div class="col-md-12 d-flex flex-wrap justify-content-center">
+                    <div class="card col-md-6 mb-2">
+                        <div class="card-header text-center d-flex">
+                            <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                                <th:block th:if="${match.atp}">
+                                    <img src="/images/atp.png" height="20" width="42">
+                                </th:block>
+                                <th:block th:if="${!match.atp}">
+                                    <img src="/images/wta.png" height="20" width="47">
+                                </th:block>
+                            </div>
+                            <div class="col-sm-8" th:text="${match.matchDate.toString() + ' ' + match.matchTime.toString()}">
 
+                            </div>
+                            <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                                <i th:id="'liveIcon'+${match.id}" class="fa-regular fa-circle-dot" style="color: red;display: none"></i>
+                            </div>
                         </div>
-                        <div class="col-sm-4">
-
-                        </div>
-                        <div class="col-sm-1 d-flex align-items-center justify-content-center" style="margin-left: -10px">
-
-                        </div>
-                        <div class="col-sm-1 d-flex align-items-center justify-content-center">
-
-                        </div>
-                        <div class="col-sm-4">
-                            Zakład
-                        </div>
-                        <div class="col-sm-1 d-flex align-items-center justify-content-end">
-
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="col-sm-2">
+                                            <input class="form-control text-center" readonly
+                                                   th:value="${match.player1Odds}">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input readonly
+                                                   th:value="${match.player1.firstName + ' ' + match.player1.lastName}" th:classappend="${match.player1 eq match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input readonly
+                                                   th:value="${match.player2.firstName + ' ' + match.player2.lastName}" th:classappend="${match.player2 eq match.winner} ? 'form-control text-center fw-bold alert alert-success my-alert' : 'form-control text-center fw-bold'">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input class="form-control text-center" readonly
+                                                   th:value="${match.player2Odds}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="d-flex flex-wrap">
+                                        <div class="col-sm-2">
+                                            <input class="form-control" readonly>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <input class="col-sm-8 form-control text-center" readonly th:value="${match.score != null ? match.score : ''}">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <input class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="d-flex flex-wrap">
-                                    <div class="col-sm-2">
-
-                                    </div>
-                                    <div class="col-sm-4">
-
-                                    </div>
-                                    <div class="col-sm-4">
-
-                                    </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
+                    <div class="card col-md-6 mb-2">
+                        <div class="container mt-3 mb-3" th:id="'otherBets'+${match.id}">
+                            <div th:each="bet : ${match.bets}">
+                                <div class="col-md-12 d-flex">
+                                    <th:block th:if="${match.winner == null}">
+                                        <input class="form-control text-center" readonly th:value="${bet.user.userDetails.firstName + ' ' + bet.user.userDetails.lastName}">
+                                        <input class="form-control text-center fw-bold" readonly th:value="${bet.amount}" >
+                                        <input class="form-control text-center fw-bold" readonly th:value="${bet.betOnPlayer.firstName + ' ' + bet.betOnPlayer.lastName}" >
+                                    </th:block>
+                                    <th:block th:if="${match.winner != null}">
+                                        <input class="form-control text-center" readonly th:value="${bet.user.userDetails.firstName + ' ' + bet.user.userDetails.lastName}">
+                                        <input class="form-control text-center fw-bold" readonly th:value="${bet.amount}" th:classappend="${bet.betOnPlayer.id eq match.winner.id} ? 'alert alert-success my-alert' : 'alert alert-danger my-alert'">
+                                        <input class="form-control text-center fw-bold" readonly th:value="${bet.betOnPlayer.firstName + ' ' + bet.betOnPlayer.lastName}" th:classappend="${bet.betOnPlayer.id eq match.winner.id} ? 'alert alert-success my-alert' : 'alert alert-danger my-alert'">
+                                    </th:block>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex flex-wrap justify-content-center align-content-center">
-                                    <div class="col-sm-3">
-
-                                    </div>
-                                    <div class="col-sm-7">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex flex-wrap">
-                                    <div class="col-sm-2">
-
-                                    </div>
-                                    <div class="col-sm-8">
-
-                                    </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="d-flex flex-wrap justify-content-center align-content-center">
-                                    <div class="col-sm-3">
-
-                                    </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
-                                    <div class="col-sm-3">
-
-                                    </div>
-                                    <div class="col-sm-2">
-
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="container mt-3 mb-3 h-100" th:id="'info'+${match.id}" style="display: none">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <p>Zakłady pozostałych uczestników zostaną udostępnione po rozpoczęciu meczu</p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <hr class="my-3">
             </div>
         </div>
         <div class="card-footer text-center">
@@ -172,6 +170,6 @@
     </div>
 
 </div>
-
+<script src="/js/handleShowOtherBets.js"></script>
 </body>
 </html>
