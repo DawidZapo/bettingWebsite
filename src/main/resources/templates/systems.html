@@ -152,7 +152,13 @@
         </div>
     </div>
 </div>
-<script src="/js/handleMatchToEditSearch.js"></script>
+<script src="/js/MatchFiltersAtpWtaRoundFunction.js"></script>
+<script>
+    document.getElementById('atpCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',true));
+    document.getElementById('wtaCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',true));
+    document.getElementById('roundSelect').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',true));
+    filterMatchesAtpWtaAndRound('match',true);
+</script>
 <script>
     function handleRedeemLink(){
         const redeemLink = document.getElementById('redeemButton');

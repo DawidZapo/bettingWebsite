@@ -1,4 +1,4 @@
-function filterMatchesAtpWtaAndRound(selectorType) {
+function filterMatchesAtpWtaAndRound(selectorType, useRound) {
     const atpChecked = document.getElementById('atpCheckbox').checked;
     const wtaChecked = document.getElementById('wtaCheckbox').checked;
 
@@ -11,7 +11,7 @@ function filterMatchesAtpWtaAndRound(selectorType) {
     } else if (selectorType === 'bet') {
         betSelector = '[id^="bet"]';
     } else {
-        console.error('Nieprawidłowy typ selektora');
+        console.error('Wrong selector type');
         return;
     }
     const betCards = document.querySelectorAll(betSelector);
@@ -22,15 +22,25 @@ function filterMatchesAtpWtaAndRound(selectorType) {
         const isATPMatch = card.getAttribute('data-atp') === 'true';
         const certainRound = card.getAttribute('data-round');
 
-        if(selectedRound === '0'){
-            selectedRound = lastRound;
-        }
-        selectElement.value = selectedRound;
 
-        if (((isATPMatch && atpChecked) || (!isATPMatch && wtaChecked)) && selectedRound===certainRound) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
+        if(useRound){
+            if(selectedRound === '0'){
+                selectedRound = lastRound;
+            }
+            selectElement.value = selectedRound;
+
+            if (((isATPMatch && atpChecked) || (!isATPMatch && wtaChecked)) && selectedRound===certainRound) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        }
+        else{
+            if ((isATPMatch && atpChecked) || (!isATPMatch && wtaChecked)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         }
     });
 }

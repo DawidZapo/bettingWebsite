@@ -171,14 +171,14 @@
 
 </div>
 <script src="/js/handleShowOtherBets.js"></script>
-<script src="/js/handleBetSearch.js"></script>
+<script src="/js/MatchFiltersAtpWtaRoundFunction.js"></script>
 <script>
 
-    document.getElementById('atpCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match'));
-    document.getElementById('wtaCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match'));
-    document.getElementById('roundSelect').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match'));
+    document.getElementById('atpCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match',true));
+    document.getElementById('wtaCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match',true));
+    document.getElementById('roundSelect').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match',true));
 
-    filterMatchesAtpWtaAndRound('match');
+    filterMatchesAtpWtaAndRound('match',true);
 </script>
 </body>
 </html>

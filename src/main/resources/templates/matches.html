@@ -206,7 +206,12 @@
 <div id="toast" class="toast text-center"></div>
 <script src="/js/handleRoundSelectChange.js"></script>
 <script src="/js/handleAddingPointsToBet.js"></script>
-<script src="/js/handleMatchFilters.js"></script>
+<script src="/js/MatchFiltersAtpWtaRoundFunction.js"></script>
+<script>
+    document.getElementById('atpCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',false));
+    document.getElementById('wtaCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',false));
+    filterMatchesAtpWtaAndRound('match',false);
+</script>
 <script src="/js/handlePointsSubmission.js"></script>
 <script src="/js/classes.js"></script>
 <script src="/js/handleDisableMatch.js"></script>

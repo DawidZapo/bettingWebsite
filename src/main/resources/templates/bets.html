@@ -237,13 +237,13 @@
 
 </div>
 <script src="/js/classes.js"></script>
-<script src="/js/handleBetSearch.js"></script>
+<script src="/js/MatchFiltersAtpWtaRoundFunction.js"></script>
 <script>
-    document.getElementById('atpCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet'));
-    document.getElementById('wtaCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet'));
-    document.getElementById('roundSelect').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet'));
+    document.getElementById('atpCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet',true));
+    document.getElementById('wtaCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet',true));
+    document.getElementById('roundSelect').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet',true));
 
-    filterMatchesAtpWtaAndRound('bet');
+    filterMatchesAtpWtaAndRound('bet',true);
 </script>
 <script src="/js/handleDisableBet.js"></script>
 </body>
