@@ -238,6 +238,13 @@
 </div>
 <script src="/js/classes.js"></script>
 <script src="/js/handleBetSearch.js"></script>
+<script>
+    document.getElementById('atpCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet'));
+    document.getElementById('wtaCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet'));
+    document.getElementById('roundSelect').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('bet'));
+
+    filterMatchesAtpWtaAndRound('bet');
+</script>
 <script src="/js/handleDisableBet.js"></script>
 </body>
 </html>

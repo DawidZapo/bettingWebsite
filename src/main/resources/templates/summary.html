@@ -81,7 +81,7 @@
             </div>
         </div>
         <div class="card-body">
-            <div th:each="match : ${matchesWithBets}" th:id="'match'+${match.id}" th:data-match-round="${match.round}" th:data-match-atp="${match.atp}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}">
+            <div th:each="match : ${matchesWithBets}" th:id="'match'+${match.id}" th:data-round="${match.round}" th:data-atp="${match.atp}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}">
                 <div class="col-md-12 d-flex flex-wrap justify-content-center">
                     <div class="card col-md-6 mb-2">
                         <div class="card-header text-center d-flex">
@@ -173,37 +173,12 @@
 <script src="/js/handleShowOtherBets.js"></script>
 <script src="/js/handleBetSearch.js"></script>
 <script>
-    function filterMatchesAtpWtaAndRound() {
-        const atpChecked = document.getElementById('atpCheckbox').checked;
-        const wtaChecked = document.getElementById('wtaCheckbox').checked;
-        const betCards = document.querySelectorAll('[id^="match"]');
-        const selectElement = document.getElementById('roundSelect');
-        let selectedRound = document.getElementById('roundSelect').value;
 
-        const lastRound = selectElement.options[selectElement.options.length - 1].value;
+    document.getElementById('atpCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match'));
+    document.getElementById('wtaCheckbox').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match'));
+    document.getElementById('roundSelect').addEventListener('change', ()=>filterMatchesAtpWtaAndRound('match'));
 
-        betCards.forEach(card => {
-            const isATPMatch = card.getAttribute('data-match-atp') === 'true';
-            const certainRound = card.getAttribute('data-match-round');
-
-            if(selectedRound === '0'){
-                selectedRound = lastRound;
-            }
-            selectElement.value = selectedRound;
-
-            if (((isATPMatch && atpChecked) || (!isATPMatch && wtaChecked)) && selectedRound===certainRound) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    document.getElementById('atpCheckbox').addEventListener('change', filterMatchesAtpWtaAndRound);
-    document.getElementById('wtaCheckbox').addEventListener('change', filterMatchesAtpWtaAndRound);
-    document.getElementById('roundSelect').addEventListener('change',filterMatchesAtpWtaAndRound);
-
-    filterMatchesAtpWtaAndRound();
+    filterMatchesAtpWtaAndRound('match');
 </script>
 </body>
 </html>

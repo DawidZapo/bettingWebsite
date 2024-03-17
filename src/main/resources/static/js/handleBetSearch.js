@@ -1,9 +1,20 @@
-function filterMatchesAtpWtaAndRound() {
+function filterMatchesAtpWtaAndRound(selectorType) {
     const atpChecked = document.getElementById('atpCheckbox').checked;
     const wtaChecked = document.getElementById('wtaCheckbox').checked;
-    const betCards = document.querySelectorAll('[id^="bet"]');
+
     const selectElement = document.getElementById('roundSelect');
     let selectedRound = document.getElementById('roundSelect').value;
+
+    let betSelector;
+    if (selectorType === 'match') {
+        betSelector = '[id^="match"]';
+    } else if (selectorType === 'bet') {
+        betSelector = '[id^="bet"]';
+    } else {
+        console.error('Nieprawidłowy typ selektora');
+        return;
+    }
+    const betCards = document.querySelectorAll(betSelector);
 
     const lastRound = selectElement.options[selectElement.options.length - 1].value;
 
@@ -23,9 +34,3 @@ function filterMatchesAtpWtaAndRound() {
         }
     });
 }
-
-document.getElementById('atpCheckbox').addEventListener('change', filterMatchesAtpWtaAndRound);
-document.getElementById('wtaCheckbox').addEventListener('change', filterMatchesAtpWtaAndRound);
-document.getElementById('roundSelect').addEventListener('change',filterMatchesAtpWtaAndRound);
-
-filterMatchesAtpWtaAndRound();
