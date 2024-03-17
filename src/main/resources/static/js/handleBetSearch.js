@@ -1,4 +1,4 @@
-function filterMatches() {
+function filterMatchesAtpWtaAndRound() {
     const atpChecked = document.getElementById('atpCheckbox').checked;
     const wtaChecked = document.getElementById('wtaCheckbox').checked;
     const betCards = document.querySelectorAll('[id^="bet"]');
@@ -24,8 +24,8 @@ function filterMatches() {
     });
 }
 
-document.getElementById('atpCheckbox').addEventListener('change', filterMatches);
-document.getElementById('wtaCheckbox').addEventListener('change', filterMatches);
-document.getElementById('roundSelect').addEventListener('change',filterMatches);
+document.getElementById('atpCheckbox').addEventListener('change', filterMatchesAtpWtaAndRound);
+document.getElementById('wtaCheckbox').addEventListener('change', filterMatchesAtpWtaAndRound);
+document.getElementById('roundSelect').addEventListener('change',filterMatchesAtpWtaAndRound);
 
-filterMatches();
+filterMatchesAtpWtaAndRound();

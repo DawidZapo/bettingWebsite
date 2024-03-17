@@ -1,4 +1,4 @@
-function filterMatches() {
+function filterMatchesAtpWta() {
     const atpChecked = document.getElementById('atpCheckbox').checked;
     const wtaChecked = document.getElementById('wtaCheckbox').checked;
     const matchCards = document.querySelectorAll('[id^="match"]');
@@ -13,6 +13,6 @@ function filterMatches() {
     });
 }
 
-document.getElementById('atpCheckbox').addEventListener('change', filterMatches);
-document.getElementById('wtaCheckbox').addEventListener('change', filterMatches);
-filterMatches();
+document.getElementById('atpCheckbox').addEventListener('change', filterMatchesAtpWta);
+document.getElementById('wtaCheckbox').addEventListener('change', filterMatchesAtpWta);
+filterMatchesAtpWta();
