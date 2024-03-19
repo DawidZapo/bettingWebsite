@@ -29,7 +29,7 @@ public class Match {
     private Boolean atp;
     @Column(name = "round")
     private String round;
-    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "match", fetch = FetchType.EAGER)
     private List<Bet> bets;
     @ManyToOne
     @JoinColumn(name = "player1_id", referencedColumnName = "id")

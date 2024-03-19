@@ -105,7 +105,8 @@
                             Zakład
                         </div>
                         <div class="col-sm-1 d-flex align-items-center justify-content-end">
-                            <form th:id="'form'+${bet.id}" method="post" th:action="@{/bets/delete(id=${bet.id})}">
+                            <form th:id="'form'+${bet.id}" method="post" th:action="@{/bets/delete}">
+                                <input type="hidden" name="id" th:value="${bet.id}">
                                 <button type="submit" th:id="'deleteBetButton'+${bet.id}" class="btn btn-danger d-flex align-items-center justify-content-center" style="height: 20px" title="Usuń zakład">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>

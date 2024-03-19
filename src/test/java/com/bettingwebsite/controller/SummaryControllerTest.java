@@ -18,13 +18,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
 @SpringBootTest
@@ -122,6 +128,22 @@ public class SummaryControllerTest {
         }
 
         assertEquals(matchesWithBets.size(),newListToTestMatches.size());
+    }
+
+    @Test
+    @DisplayName("Test /summary endpoint")
+    @WithMockUser(username = "admin")
+    public void testSummaryEndpoint() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(get("/summary"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("summary"))
+                .andExpect(model().attributeExists("matchForHTML"))
+                .andExpect(model().attributeExists("rounds"))
+                .andExpect(model().attributeExists("matchesWithBets"))
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"summary");
     }
 
 }

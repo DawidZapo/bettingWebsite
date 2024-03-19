@@ -15,6 +15,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -168,8 +169,11 @@ public class BetControllerTest {
     @Test
     @DisplayName("Test /bets/delete delete")
     @WithMockUser(username = "admin")
-    public void testBetsDeletePreMatch() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(post("/bets/delete").param("id","3").with(csrf()))
+    @Transactional
+    public void testBetsDelete() throws Exception{
+        List<Bet> betsBefore = betRepository.findAll();
+        assertEquals(4,betsBefore.size());
+        MvcResult mvcResult = mockMvc.perform(post("/bets/delete").param("id","1").with(csrf()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/bets"))
                 .andReturn();
