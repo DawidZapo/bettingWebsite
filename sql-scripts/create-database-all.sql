@@ -114,3 +114,19 @@ CREATE TABLE bet (
     FOREIGN KEY (match_to_bet_id) REFERENCES match_to_bet(id),
     FOREIGN KEY (bet_on_player_id) REFERENCES player(id)
 );
+
+USE betting;
+CREATE TABLE result (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT,
+    beginning_score DOUBLE,
+    after_first_round DOUBLE,
+    after_second_round DOUBLE,
+    after_third_round DOUBLE,
+    after_fourth_round DOUBLE,
+    after_quarter_final DOUBLE,
+    after_semi_final DOUBLE,
+    after_final DOUBLE,
+    
+    foreign key(user_id) references users(id)
+);

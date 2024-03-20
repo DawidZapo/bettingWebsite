@@ -26,6 +26,8 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserDetails userDetails;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Result result;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",
@@ -46,12 +48,13 @@ public class User {
     }
 
     public User(String userName, String password, boolean enabled,
-                Collection<Role> roles, UserDetails userDetails) {
+                Collection<Role> roles, UserDetails userDetails, Result result) {
         this.userName = userName;
         this.password = password;
         this.enabled = enabled;
         this.roles = roles;
         this.userDetails = userDetails;
+        this.result = result;
     }
 
     public Long getId() {
@@ -100,6 +103,14 @@ public class User {
 
     public void setUserDetails(UserDetails userDetails) {
         this.userDetails = userDetails;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
     }
 
     public List<Bet> getBets() {

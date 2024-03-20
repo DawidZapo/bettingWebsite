@@ -16,7 +16,7 @@ public class LoginController {
 
     @Autowired
     public LoginController(UserService userService) {
-        this.userService = userService;
+        LoginController.userService = userService;
     }
 
     @GetMapping("/loginPage")
