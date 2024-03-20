@@ -226,6 +226,27 @@ public class MainControllerTest {
     }
 
     @Test
+    @DisplayName("Test /processPointsSubmission edit existing bet")
+    @WithMockUser(username = "admin")
+    public void testProcessPointsSubmissionEditExistingBet() throws Exception{
+        betRepository.deleteAll();
+        MvcResult mvcResult = mockMvc.perform(get("/processPointsSubmission?arguments=10inputMatch1player1;10inputMatch2player1"))
+                .andExpect(status().is3xxRedirection()).andReturn();
+        List<Bet> bets = betRepository.findAll();
+        assertEquals(2,bets.size());
+        assertEquals(10, bets.get(0).getAmount());
+        assertEquals(10,bets.get(1).getAmount());
+
+        mockMvc.perform(get("/processPointsSubmission?arguments=30inputMatch1player1;60inputMatch2player1"))
+                .andExpect(status().is3xxRedirection()).andReturn();
+
+        List<Bet> updatedBets = betRepository.findAll();
+        assertEquals(2,updatedBets.size());
+        assertEquals(30,updatedBets.get(0).getAmount());
+        assertEquals(60,updatedBets.get(1).getAmount());
+    }
+
+    @Test
     @DisplayName("Test own query in BetRepository")
     public void testBetRepository(){
         Bet bet = betRepository.findBetByUserIdAndMatchToBetIdAndBetOnPlayerId(1L,1L,1L);
