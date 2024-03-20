@@ -4,4 +4,5 @@ import com.bettingwebsite.entity.Result;
 
 public interface ResultService {
     Result findById(Long id);
+    void updateAllUsersResults(String round);
 }

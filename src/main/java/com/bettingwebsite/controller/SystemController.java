@@ -5,6 +5,7 @@ import com.bettingwebsite.entity.User;
 import com.bettingwebsite.service.bet.BetService;
 import com.bettingwebsite.service.match.MatchService;
 import com.bettingwebsite.service.player.PlayerService;
+import com.bettingwebsite.service.result.ResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,12 +20,14 @@ public class SystemController {
     private MatchService matchService;
     private PlayerService playerService;
     private BetService betService;
+    private ResultService resultService;
 
     @Autowired
-    public SystemController(MatchService matchService, PlayerService playerService, BetService betService) {
+    public SystemController(MatchService matchService, PlayerService playerService, BetService betService, ResultService resultService) {
         this.matchService = matchService;
         this.playerService = playerService;
         this.betService = betService;
+        this.resultService= resultService;
     }
 
 
@@ -77,6 +80,7 @@ public class SystemController {
                 betService.redeemBets(match);
             }
         }
+        resultService.updateAllUsersResults(round);
         return "redirect:/systems";
     }
 }

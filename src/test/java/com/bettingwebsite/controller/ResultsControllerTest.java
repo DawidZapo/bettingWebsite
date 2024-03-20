@@ -19,8 +19,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestPropertySource("/application-test.properties")
@@ -45,6 +47,8 @@ public class ResultsControllerTest {
     private String sqlDeletePlayers;
     @Value("${sql.script.create.user}")
     private String sqlAddUser;
+    @Value("${sql.script.create.user2}")
+    private String sqlAddUser2;
     @Value("${sql.script.delete.user}")
     private String sqlDeleteUser;
     @Value("${sql.script.create.match1.round1}")
@@ -89,6 +93,7 @@ public class ResultsControllerTest {
         jdbc.execute(sqlAddPlayer2Wta);
 
         jdbc.execute(sqlAddUser);
+        jdbc.execute(sqlAddUser2);
 
         jdbc.execute(sqlCreateMatch1Round1);
         jdbc.execute(sqlCreateMatch2Round2);
@@ -127,5 +132,12 @@ public class ResultsControllerTest {
         User user = userDao.findById(1L);
         assertNotNull(user.getUserDetails());
         assertNotNull(user.getResult());
+    }
+
+    @Test
+    @DisplayName("Test find all users")
+    public void testFindAllUsers(){
+        List<User> users = userDao.findAll();
+        assertEquals(2,users.size());
     }
 }

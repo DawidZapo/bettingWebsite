@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class BetController {
@@ -39,8 +40,13 @@ public class BetController {
         model.addAttribute("matchForHTML", new Match());
 
         List<String> rounds = bets.stream().map(bet -> bet.getMatch().getRound()).distinct().toList();
+        Comparator<String> roundComparator = Comparator.comparingInt(Match::getRoundOrder);
 
-        model.addAttribute("rounds", rounds);
+        List<String> sortedRounds = rounds.stream()
+                .sorted(roundComparator)
+                .collect(Collectors.toList());
+
+        model.addAttribute("rounds", sortedRounds);
 
         return "bets";
     }

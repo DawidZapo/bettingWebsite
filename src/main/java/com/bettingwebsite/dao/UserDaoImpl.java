@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDaoImpl implements UserDao {
 
@@ -50,5 +52,12 @@ public class UserDaoImpl implements UserDao {
     public User save(User user) {
         return entityManager.merge(user);
     }
+
+    @Override
+    public List<User> findAll() {
+        TypedQuery<User> query = entityManager.createQuery("FROM User", User.class);
+        return query.getResultList();
+    }
+
 }
 

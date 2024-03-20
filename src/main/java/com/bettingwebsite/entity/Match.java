@@ -260,4 +260,16 @@ public class Match {
                 Map.entry("final", 7)
         );
     }
+    public static int getRoundOrder(String round) {
+        return switch (round) {
+            case "round1" -> 1;
+            case "round2" -> 2;
+            case "round3" -> 3;
+            case "round4" -> 4;
+            case "quarter-final" -> 5;
+            case "semi-final" -> 6;
+            case "final" -> 7;
+            default -> Integer.MAX_VALUE;
+        };
+    }
 }
