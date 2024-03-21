@@ -49,6 +49,8 @@ public class ResultsControllerTest {
     private String sqlAddUser;
     @Value("${sql.script.create.user2}")
     private String sqlAddUser2;
+    @Value("${sql.script.create.user3}")
+    private String sqlAddUser3;
     @Value("${sql.script.delete.user}")
     private String sqlDeleteUser;
     @Value("${sql.script.create.match1.round1}")
@@ -94,6 +96,7 @@ public class ResultsControllerTest {
 
         jdbc.execute(sqlAddUser);
         jdbc.execute(sqlAddUser2);
+        jdbc.execute(sqlAddUser3);
 
         jdbc.execute(sqlCreateMatch1Round1);
         jdbc.execute(sqlCreateMatch2Round2);
@@ -138,6 +141,13 @@ public class ResultsControllerTest {
     @DisplayName("Test find all users")
     public void testFindAllUsers(){
         List<User> users = userDao.findAll();
-        assertEquals(2,users.size());
+        assertEquals(3,users.size());
+    }
+
+    @Test
+    @DisplayName("Test method findAllExceptAdminAndDisabled()")
+    public void testFindAllExceptAdminAndDisabled(){
+        List<User> users = userDao.findAllExceptAdminAndDisabled();
+        assertEquals(1,users.size());
     }
 }

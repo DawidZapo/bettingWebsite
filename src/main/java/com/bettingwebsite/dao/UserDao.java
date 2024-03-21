@@ -10,5 +10,6 @@ public interface UserDao {
     User findById(Long userNameId);
     User save(User user);
     List<User> findAll();
+    List<User> findAllExceptAdminAndDisabled();
 
 }

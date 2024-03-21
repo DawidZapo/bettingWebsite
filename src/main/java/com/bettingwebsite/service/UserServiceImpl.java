@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(User user) {
         userDao.save(user);
+    }
+
+    @Override
+    public List<User> findAllExceptAdminAndDisabled() {
+        return userDao.findAllExceptAdminAndDisabled();
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

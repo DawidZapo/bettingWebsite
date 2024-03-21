@@ -14,19 +14,19 @@ public class Result {
     private User user;
     @Column(name = "beginning_score")
     private Double beginningScore;
-    @Column(name = "after_first_round")
+    @Column(name = "first_round")
     private Double afterFirstRound;
-    @Column(name = "after_second_round")
+    @Column(name = "second_round")
     private Double afterSecondRound;
-    @Column(name = "after_third_round")
+    @Column(name = "third_round")
     private Double afterThirdRound;
-    @Column(name = "after_fourth_round")
+    @Column(name = "fourth_round")
     private Double afterFourthRound;
-    @Column(name = "after_quarter_final")
+    @Column(name = "quarter_final")
     private Double afterQuarterFinal;
-    @Column(name = "after_semi_final")
+    @Column(name = "semi_final")
     private Double afterSemiFinal;
-    @Column(name = "after_final")
+    @Column(name = "final")
     private Double afterFinal;
 
     public Result() {

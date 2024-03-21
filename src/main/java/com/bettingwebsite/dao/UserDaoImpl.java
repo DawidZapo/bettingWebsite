@@ -59,5 +59,13 @@ public class UserDaoImpl implements UserDao {
         return query.getResultList();
     }
 
+    @Override
+    public List<User> findAllExceptAdminAndDisabled() {
+        TypedQuery<User> query = entityManager.createQuery("FROM User WHERE userName != :adminName AND enabled = true", User.class);
+        query.setParameter("adminName", "admin");
+        return query.getResultList();
+    }
+
+
 }
 
