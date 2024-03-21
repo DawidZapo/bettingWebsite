@@ -16,14 +16,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @TestPropertySource("/application-test.properties")
 @SpringBootTest
@@ -61,16 +67,28 @@ public class ResultsControllerTest {
     private String sqlDeleteMatch;
     @Value("${sql.script.create.user.details}")
     private String sqlCreateUserDetails;
+    @Value("${sql.script.create.user.details2}")
+    private String sqlCreateUserDetails2;
+    @Value("${sql.script.create.user.details3}")
+    private String sqlCreateUserDetails3;
     @Value("${sql.script.delete.user.details}")
     private String sqlDeleteUserDetails;
+    @Value("${sql.script.create.user.result}")
+    private String sqlCreateUserResult;
+    @Value("${sql.script.create.user.result2}")
+    private String sqlCreateUserResult2;
+    @Value("${sql.script.create.user.result3}")
+    private String sqlCreateUserResult3;
+    @Value("${sql.script.delete.user.result}")
+    private String sqlDeleteResult;
     @Value("${sql.script.create.bet1}")
     private String sqlCreateBet;
     @Value("${sql.script.delete.bet}")
     private String sqlDeleteBet;
-    @Value("${sql.script.create.result}")
-    private String sqlAddResult;
-    @Value("${sql.script.delete.result}")
-    private String sqlDeleteResult;
+//    @Value("${sql.script.create.result}")
+//    private String sqlAddResult;
+//    @Value("${sql.script.delete.result}")
+//    private String sqlDeleteResult;
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
@@ -104,8 +122,12 @@ public class ResultsControllerTest {
         jdbc.execute(sqlCreateBet);
 
         jdbc.execute(sqlCreateUserDetails);
+        jdbc.execute(sqlCreateUserDetails2);
+        jdbc.execute(sqlCreateUserDetails3);
 
-        jdbc.execute(sqlAddResult);
+        jdbc.execute(sqlCreateUserResult);
+        jdbc.execute(sqlCreateUserResult2);
+        jdbc.execute(sqlCreateUserResult3);
     }
     @AfterEach
     public void cleanUpDatabase(){
@@ -114,6 +136,8 @@ public class ResultsControllerTest {
         jdbc.execute(sqlDeleteMatch);
 
         jdbc.execute(sqlDeletePlayers);
+
+        jdbc.execute(sqlDeleteResult);
 
         jdbc.execute(sqlDeleteResult);
 
@@ -149,5 +173,20 @@ public class ResultsControllerTest {
     public void testFindAllExceptAdminAndDisabled(){
         List<User> users = userDao.findAllExceptAdminAndDisabled();
         assertEquals(1,users.size());
+    }
+
+    @Test
+    @DisplayName("Test /results endpoint")
+    @WithMockUser(username = "admin")
+    public void testResultsEndpoint() throws Exception{
+        MvcResult mvcResult = mockMvc.perform(get("/results"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("username"))
+                .andExpect(model().attributeExists("userDetails"))
+                .andExpect(model().attributeExists("users"))
+                .andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav,"results");
     }
 }
