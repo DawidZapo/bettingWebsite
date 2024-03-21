@@ -1,8 +1,6 @@
 function disableMatchAccordingToTime(){
     const matchElements = document.querySelectorAll('[id^="match"]');
-
     matchElements.forEach(matchElement=>{
-
         const deleteBtn = document.getElementById('saveBtn');
         const match = matchElement.getAttribute('data-match');
         const matchDate = matchElement.getAttribute('data-match-date');

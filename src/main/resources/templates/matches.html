@@ -54,17 +54,20 @@
     <div class="card mb-4">
         <div class="card-header">
             <div class="d-flex flex-wrap">
-                <div class="col-md-4 text-center">
+                <div class="col-md-3 text-center">
                     <h4>Mecze</h4>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select id="roundSelect" class="form-control mr-2 text-center" name="round">
                         <option th:value="0" disabled selected>Wybierz rundę</option>
                         <option th:each="round : ${rounds}" th:value="${round}"
                                 th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
                     </select>
                 </div>
-                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                <div class="col-md-3">
+                    <input id="searchText" oninput="filterMatchesAtpWtaAndRound('match',false,true)" type="text" class="form-control text-center" placeholder="Wyszukaj mecz">
+                </div>
+                <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
                     <div class="form-check mx-4">
                         <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${atpChecked}">
                         <label class="form-check-label" for="atpCheckbox">
@@ -82,7 +85,7 @@
         </div>
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-center">
-                <div class="card col-md-6 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-match="${match}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}" th:data-atp="${match.atp}">
+                <div class="card col-md-6 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-player-firstname-1="${match.player1.firstName}" th:data-player-lastname-1="${match.player1.lastName}" th:data-player-firstname-2="${match.player2.firstName}" th:data-player-lastname-2="${match.player2.lastName}" th:data-match="${match}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}" th:data-atp="${match.atp}">
                     <div class="card-header text-center d-flex">
                         <div class="col-sm-2 d-flex align-items-center justify-content-center">
                             <th:block th:if="${match.atp}">
@@ -208,9 +211,9 @@
 <script src="/js/handleAddingPointsToBet.js"></script>
 <script src="/js/MatchFiltersAtpWtaRoundFunction.js"></script>
 <script>
-    document.getElementById('atpCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',false));
-    document.getElementById('wtaCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',false));
-    filterMatchesAtpWtaAndRound('match',false);
+    document.getElementById('atpCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',false,true));
+    document.getElementById('wtaCheckbox').addEventListener('change',()=>filterMatchesAtpWtaAndRound('match',false,true));
+    filterMatchesAtpWtaAndRound('match',false,true);
 </script>
 <script src="/js/handlePointsSubmission.js"></script>
 <script src="/js/classes.js"></script>

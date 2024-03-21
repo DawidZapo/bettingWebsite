@@ -85,10 +85,6 @@ public class ResultsControllerTest {
     private String sqlCreateBet;
     @Value("${sql.script.delete.bet}")
     private String sqlDeleteBet;
-//    @Value("${sql.script.create.result}")
-//    private String sqlAddResult;
-//    @Value("${sql.script.delete.result}")
-//    private String sqlDeleteResult;
     @Autowired
     private PlayerRepository playerRepository;
     @Autowired
