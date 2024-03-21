@@ -34,7 +34,7 @@
         </a>
     </div>
     <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
-        <a th:href="@{/}" class="user-info m-3" style="text-decoration: none; color: black">
+        <a th:href="@{/account}" class="user-info m-3" style="text-decoration: none; color: black">
             Konto: <strong th:text="${username}"></strong>
             <i class="fa-solid fa-user mx-1"></i>
         </a>
@@ -54,7 +54,7 @@
     <div class="card mb-4">
         <div class="card-header">
             <div class="d-flex flex-wrap">
-                <div class="col-md-4 text-center d-flex">
+                <div class="col-md-3 text-center d-flex">
                     <a  id="redeemButton" class="btn btn-success">Redeem</a>
                     <select id="roundRedeemSelect" class="form-control mr-2 text-center w-50">
                         <option th:value="0" disabled selected>Wybierz rundę</option>
@@ -62,14 +62,17 @@
                                 th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <select id="roundSelect" class="form-control mr-2 text-center" name="round">
                         <option th:value="0" disabled selected>Wybierz rundę</option>
                         <option th:each="round : ${rounds}" th:value="${round}"
                                 th:text="${matchForHTML.getPolishNameForHTML(round)}"></option>
                     </select>
                 </div>
-                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                <div class="col-md-3">
+                    <input id="searchText" oninput="filterMatchesAtpWtaAndRound('match',true,true)" type="text" class="form-control text-center" placeholder="Wyszukaj mecz">
+                </div>
+                <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
                     <div class="form-check mx-4">
                         <input class="form-check-input" type="checkbox" value="" id="atpCheckbox" th:checked="${true}">
                         <label class="form-check-label" for="atpCheckbox">
@@ -87,7 +90,7 @@
         </div>
         <div class="card-body">
             <div class="d-flex flex-wrap justify-content-center">
-                <div class="card col-md-4 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-match="${match}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}" th:data-atp="${match.atp}" th:data-round="${match.round}">
+                <div class="card col-md-4 mb-2" th:each="match : ${matches}" th:id="'match' + ${match.id}" th:data-match="${match}" th:data-player-firstname-1="${match.player1.firstName}" th:data-player-lastname-1="${match.player1.lastName}" th:data-player-firstname-2="${match.player2.firstName}" th:data-player-lastname-2="${match.player2.lastName}" th:data-match-date="${match.matchDate}" th:data-match-time="${match.matchTime}" th:data-match-id="${match.id}" th:data-match-score="${match.score}" th:data-atp="${match.atp}" th:data-round="${match.round}">
                     <form th:action="@{/systems/submitMatch}" method="post">
                         <input type="hidden" th:value="${match.id}" name="id">
                         <div class="card-header text-center d-flex">

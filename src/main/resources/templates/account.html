@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Betting Website</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-primary bg-light navbar-custom">
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <ul class="navbar-nav mr-auto mx-4">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/}">Mecze</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/bets}">Twoje zakłady</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/summary}">Podsumowanie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/results}">Wyniki</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4  d-flex flex-wrap align-items-center justify-content-center">
+        <a>
+            <img width="250" height="50" src="/images/roland-garros-long.png">
+        </a>
+    </div>
+    <div class="col-md-4 d-flex flex-wrap justify-content-center align-items-center">
+        <a th:href="@{/account}" class="user-info m-3" style="text-decoration: none; color: black">
+            Konto: <strong th:text="${username}"></strong>
+            <i class="fa-solid fa-user mx-1"></i>
+        </a>
+
+        <form class="mx-4" action="#" th:action="@{/logout}" method="POST">
+            <button type="submit" value="Wyloguj się" class="btn btn-outline-danger">
+                Wyloguj się
+                <i class="fa-solid fa-right-from-bracket mx-2"></i>
+            </button>
+        </form>
+    </div>
+
+
+</nav>
+
+<div class="mx-3">
+    <div class="card mb-4">
+        <div class="card-header">
+            <div class="d-flex flex-wrap">
+                <div class="col-md-4 text-center">
+                    <h4>Konto</h4>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap justify-content-center">
+                <div class="col-md-5">
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap">
+                            <div class="col-sm-6" th:text="${user.userDetails.firstName + ' ' + user.userDetails.lastName}"></div>
+                            <div class="col-sm-6 d-flex align-items-center justify-content-end">
+                                <i class="fa-solid fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-wrap">
+                            <div class="col-sm-6">
+                                <input class="form-control" value="Użytkownik">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control text-center fw-bold" th:value="${user.userName}">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" value="Imię">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control text-center fw-bold" th:value="${user.userDetails.firstName}">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" value="Nazwisko">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control text-center fw-bold" th:value="${user.userDetails.lastName}">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" value="Aktywne">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control text-center fw-bold" th:if="${user.enabled}" value="Tak">
+                                <input class="form-control text-center fw-bold" th:if="${!user.enabled}" value="Nie">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control" value="Hasło">
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control text-center fw-bold" value="***********">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <p class="fst-italic">Roland Garros 2024 Paris</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
