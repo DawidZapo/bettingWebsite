@@ -10,6 +10,7 @@ Java,
 Spring Boot,
 Jpa/Hibernate,
 MySQL,
+JavaScript,
 HTML/CSS/Bootstrap,
 ThymeLeaf
 
