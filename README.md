@@ -8,8 +8,6 @@ With this web app, families can create private betting pools, allowing members t
 <img width="960" alt="image" src="https://github.com/DawidZapo/bettingWebsite/assets/129291980/49dc114e-338b-4598-ab54-c14db43f8cb4">
 <img width="960" alt="image" src="https://github.com/DawidZapo/bettingWebsite/assets/129291980/d2e4c051-e656-4d9c-adc4-5248de9d73de">
 
-
-
 Technology stack:
 Java,
 Spring Boot,
