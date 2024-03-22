@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/webjars/bootstrap/5.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/webjars/font-awesome/6.3.0/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/bcryptjs/dist/bcrypt.min.js"></script>
     <style>
     </style>
 </head>
@@ -70,7 +71,8 @@
                 <div class="col-md-5">
                     <div class="card">
                         <div class="card-header d-flex flex-wrap">
-                            <div class="col-sm-6" th:text="${user.userDetails.firstName + ' ' + user.userDetails.lastName}"></div>
+                            <div class="col-sm-6"
+                                 th:text="${user.userDetails.firstName + ' ' + user.userDetails.lastName}"></div>
                             <div class="col-sm-6 d-flex align-items-center justify-content-end">
                                 <i class="fa-solid fa-user"></i>
                             </div>
@@ -86,7 +88,8 @@
                                 <input class="form-control" value="Imię">
                             </div>
                             <div class="col-sm-6">
-                                <input class="form-control text-center fw-bold" th:value="${user.userDetails.firstName}">
+                                <input class="form-control text-center fw-bold"
+                                       th:value="${user.userDetails.firstName}">
                             </div>
                             <div class="col-sm-6">
                                 <input class="form-control" value="Nazwisko">
@@ -101,11 +104,34 @@
                                 <input class="form-control text-center fw-bold" th:if="${user.enabled}" value="Tak">
                                 <input class="form-control text-center fw-bold" th:if="${!user.enabled}" value="Nie">
                             </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" value="Hasło">
+                            <div class="col-sm-12 my-2">
+                                <hr class="my-2">
                             </div>
-                            <div class="col-sm-6">
-                                <input class="form-control text-center fw-bold" value="***********">
+                            <div class="col-sm-6 my-1">
+                                <input id="hashedPassword" type="hidden" th:value="${user.password}">
+                                <div id="oldPasswordAlert" style="display:none;" class="alert alert-danger my-alert">Błędne stare hasło</div>
+                            </div>
+                            <div class="col-sm-6 my-1">
+                                <input id="oldPassword" class="form-control" type="password" placeholder="Stare hasło">
+                            </div>
+                            <div class="col-sm-6 my-1">
+
+                            </div>
+                            <div class="col-sm-6 my-1">
+                                <input id="newPassword" class="form-control" type="password" placeholder="Nowe hasło">
+                            </div>
+                            <div class="col-sm-6 my-1">
+                                <div id="confirmPasswordAlert" style="display: none" class="alert alert-danger my-alert">Nowe hasło się nie zgadzają</div>
+                            </div>
+                            <div class="col-sm-6 my-1">
+                                <input id="confirmPassword" class="form-control" type="password"
+                                       placeholder="Powtórz hasło">
+                            </div>
+                            <div class="col-sm-6 my-1">
+
+                            </div>
+                            <div class="col-sm-6 my-1">
+                                <button id="saveButton" class="btn btn-outline-success w-100">Zapisz</button>
                             </div>
                         </div>
                     </div>
@@ -117,5 +143,43 @@
         </div>
     </div>
 </div>
+<script>
+    function checkPassword(){
+        const oldPassword = document.getElementById('oldPassword');
+        const newPassword = document.getElementById('newPassword');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const hashedPassword = document.getElementById('hashedPassword');
+        const saveButton = document.getElementById('saveButton');
+        const oldPasswordAlert = document.getElementById('oldPasswordAlert');
+        const confirmPasswordAlert = document.getElementById('confirmPasswordAlert');
+
+        const oldPasswordMatch = dcodeIO.bcrypt.compareSync(oldPassword.value,hashedPassword.value);
+        const newPasswordMatch = newPassword.value === confirmPassword.value;
+
+        if (!oldPasswordMatch) {
+            oldPasswordAlert.style.display = 'block';
+        } else {
+            oldPasswordAlert.style.display = 'none';
+        }
+
+        if (!newPasswordMatch) {
+            confirmPasswordAlert.style.display = 'block';
+        } else {
+            confirmPasswordAlert.style.display = 'none';
+        }
+
+        if (oldPasswordMatch && newPasswordMatch) {
+            saveButton.disabled = false;
+        } else {
+            saveButton.disabled = true;
+        }
+
+    }
+
+    document.getElementById('oldPassword').addEventListener('input',checkPassword);
+    document.getElementById('newPassword').addEventListener('input',checkPassword);
+    document.getElementById('confirmPassword').addEventListener('input',checkPassword);
+
+</script>
 </body>
 </html>
