@@ -78,61 +78,71 @@
                             </div>
                         </div>
                         <div class="card-body d-flex flex-wrap">
-                            <div class="col-sm-6">
-                                <input class="form-control" value="Użytkownik">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control text-center fw-bold" th:value="${user.userName}">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" value="Imię">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control text-center fw-bold"
-                                       th:value="${user.userDetails.firstName}">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" value="Nazwisko">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control text-center fw-bold" th:value="${user.userDetails.lastName}">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control" value="Aktywne">
-                            </div>
-                            <div class="col-sm-6">
-                                <input class="form-control text-center fw-bold" th:if="${user.enabled}" value="Tak">
-                                <input class="form-control text-center fw-bold" th:if="${!user.enabled}" value="Nie">
-                            </div>
-                            <div class="col-sm-12 my-2">
-                                <hr class="my-2">
-                            </div>
-                            <div class="col-sm-6 my-1">
-                                <input id="hashedPassword" type="hidden" th:value="${user.password}">
-                                <div id="oldPasswordAlert" style="display:none;" class="alert alert-danger my-alert">Błędne stare hasło</div>
-                            </div>
-                            <div class="col-sm-6 my-1">
-                                <input id="oldPassword" class="form-control" type="password" placeholder="Stare hasło">
-                            </div>
-                            <div class="col-sm-6 my-1">
+                            <div class="d-flex flex-wrap">
+                                <div class="col-sm-6">
+                                    <input class="form-control" value="Użytkownik">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control text-center fw-bold" th:value="${user.userName}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" value="Imię">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control text-center fw-bold"
+                                           th:value="${user.userDetails.firstName}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" value="Nazwisko">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control text-center fw-bold" th:value="${user.userDetails.lastName}">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control" value="Aktywne">
+                                </div>
+                                <div class="col-sm-6">
+                                    <input class="form-control text-center fw-bold" th:if="${user.enabled}" value="Tak">
+                                    <input class="form-control text-center fw-bold" th:if="${!user.enabled}" value="Nie">
+                                </div>
+                                <div class="col-sm-1 d-flex align-items-center justify-content-center my-2">
+                                    <i id="icon" class="fa-solid fa-arrow-down" style="cursor: pointer"></i>
+                                </div>
+                                <div class="col-sm-11 my-2">
+                                    <hr class="my-2">
+                                </div>
+
 
                             </div>
-                            <div class="col-sm-6 my-1">
-                                <input id="newPassword" class="form-control" type="password" placeholder="Nowe hasło">
-                            </div>
-                            <div class="col-sm-6 my-1">
-                                <div id="confirmPasswordAlert" style="display: none" class="alert alert-danger my-alert">Nowe hasło się nie zgadzają</div>
-                            </div>
-                            <div class="col-sm-6 my-1">
-                                <input id="confirmPassword" class="form-control" type="password"
-                                       placeholder="Powtórz hasło">
-                            </div>
-                            <div class="col-sm-6 my-1">
+                            <div id="containerToShowAndHide" class="d-flex flex-wrap d-none">
+                                <div class="col-sm-6 my-1">
+                                    <input id="hashedPassword" type="hidden" th:value="${user.password}">
+                                    <div id="oldPasswordAlert" style="display:none;" class="alert alert-danger my-alert">Błędne stare hasło</div>
+                                </div>
+                                <div class="col-sm-6 my-1">
+                                    <input id="oldPassword" class="form-control" type="password" placeholder="Stare hasło">
+                                </div>
+                                <div class="col-sm-6 my-1">
 
+                                </div>
+                                <div class="col-sm-6 my-1">
+                                    <input id="newPassword" class="form-control" type="password" placeholder="Nowe hasło">
+                                </div>
+                                <div class="col-sm-6 my-1">
+                                    <div id="confirmPasswordAlert" style="display: none" class="alert alert-danger my-alert">Nowe hasło się nie zgadzają</div>
+                                </div>
+                                <div class="col-sm-6 my-1">
+                                    <input id="confirmPassword" class="form-control" type="password"
+                                           placeholder="Powtórz hasło">
+                                </div>
+                                <div class="col-sm-6 my-1">
+
+                                </div>
+                                <div class="col-sm-6 my-1">
+                                    <button id="saveButton" class="btn btn-outline-success w-100">Zapisz</button>
+                                </div>
                             </div>
-                            <div class="col-sm-6 my-1">
-                                <button id="saveButton" class="btn btn-outline-success w-100">Zapisz</button>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -180,6 +190,31 @@
     document.getElementById('newPassword').addEventListener('input',checkPassword);
     document.getElementById('confirmPassword').addEventListener('input',checkPassword);
 
+</script>
+<script>
+    const icon = document.getElementById('icon')
+    icon.addEventListener('mouseenter',function (){
+       icon.style.opacity='0.7'
+    });
+    icon.addEventListener('mouseleave', function (){
+       icon.style.opacity='1'
+    });
+    icon.addEventListener("click", function() {
+        const container = document.getElementById('containerToShowAndHide');
+        const computedStyle = window.getComputedStyle(container);
+
+        if (computedStyle.display === "none") {
+            container.className = '';
+            container.classList.add('d-flex', 'flex-wrap');
+            icon.className ='';
+            icon.classList.add('fa-solid', 'fa-arrow-up');
+        } else {
+            container.className = '';
+            container.classList.add('d-none');
+            icon.className ='';
+            icon.classList.add('fa-solid', 'fa-arrow-down');
+        }
+    });
 </script>
 </body>
 </html>

@@ -27,3 +27,33 @@
     background-color:#F0F0F0;
     opacity: 0.5;
 }
+
+/* Definicja animacji obracania w górę */
+@keyframes rotate-up {
+    from {
+        transform: rotate(0deg); /* Początkowy obrót (0 stopni) */
+    }
+    to {
+        transform: rotate(-180deg); /* Końcowy obrót (-180 stopni) */
+    }
+}
+
+/* Definicja animacji obracania w dół */
+@keyframes rotate-down {
+    from {
+        transform: rotate(0deg); /* Początkowy obrót (0 stopni) */
+    }
+    to {
+        transform: rotate(180deg); /* Końcowy obrót (180 stopni) */
+    }
+}
+
+/* Styl dla ikony */
+.rotate-up {
+    animation: rotate-up 0.5s linear; /* Ustawienie animacji obracania w górę */
+}
+
+.rotate-down {
+    animation: rotate-down 0.5s linear; /* Ustawienie animacji obracania w dół */
+}
+
