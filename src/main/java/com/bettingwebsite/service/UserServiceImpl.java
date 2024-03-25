@@ -50,6 +50,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(Long id) {
+        return userDao.findById(id);
+    }
+
+    @Override
     public List<User> findAllExceptAdminAndDisabled() {
         return userDao.findAllExceptAdminAndDisabled();
     }

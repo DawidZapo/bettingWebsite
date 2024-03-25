@@ -67,6 +67,7 @@
             </div>
         </div>
         <div class="card-body">
+            <div th:if="${success}" class="alert alert-success text-center">Hasło zostało pomyślnie zmienione</div>
             <div class="d-flex flex-wrap justify-content-center">
                 <div class="col-md-5">
                     <div class="card">
@@ -111,37 +112,36 @@
                                 <div class="col-sm-11 my-2">
                                     <hr class="my-2">
                                 </div>
-
-
                             </div>
-                            <div id="containerToShowAndHide" class="d-flex flex-wrap d-none">
-                                <div class="col-sm-6 my-1">
-                                    <input id="hashedPassword" type="hidden" th:value="${user.password}">
-                                    <div id="oldPasswordAlert" style="display:none;" class="alert alert-danger my-alert">Błędne stare hasło</div>
-                                </div>
-                                <div class="col-sm-6 my-1">
-                                    <input id="oldPassword" class="form-control" type="password" placeholder="Stare hasło">
-                                </div>
-                                <div class="col-sm-6 my-1">
+                                <form th:action="@{/account/changePassword}" method="post" id="containerToShowAndHide" class="d-flex flex-wrap d-none">
+                                    <div class="col-sm-6 my-1">
+                                        <input id="hashedPassword" type="hidden" th:value="${user.password}">
+                                        <input type="hidden" name="userId" th:value="${user.id}">
+                                        <div id="oldPasswordAlert" style="display:none;" class="alert alert-danger my-alert">Błędne stare hasło</div>
+                                    </div>
+                                    <div class="col-sm-6 my-1">
+                                        <input name="oldPassword" id="oldPassword" class="form-control" type="password" placeholder="Stare hasło">
+                                    </div>
+                                    <div class="col-sm-6 my-1">
 
-                                </div>
-                                <div class="col-sm-6 my-1">
-                                    <input id="newPassword" class="form-control" type="password" placeholder="Nowe hasło">
-                                </div>
-                                <div class="col-sm-6 my-1">
-                                    <div id="confirmPasswordAlert" style="display: none" class="alert alert-danger my-alert">Nowe hasło się nie zgadzają</div>
-                                </div>
-                                <div class="col-sm-6 my-1">
-                                    <input id="confirmPassword" class="form-control" type="password"
-                                           placeholder="Powtórz hasło">
-                                </div>
-                                <div class="col-sm-6 my-1">
+                                    </div>
+                                    <div class="col-sm-6 my-1">
+                                        <input name="newPassword" id="newPassword" class="form-control" type="password" placeholder="Nowe hasło">
+                                    </div>
+                                    <div class="col-sm-6 my-1">
+                                        <div id="confirmPasswordAlert" style="display: none" class="alert alert-danger my-alert">Nowe hasło się nie zgadzają</div>
+                                    </div>
+                                    <div class="col-sm-6 my-1">
+                                        <input name="confirmPassword" id="confirmPassword" class="form-control" type="password"
+                                               placeholder="Powtórz hasło">
+                                    </div>
+                                    <div class="col-sm-6 my-1">
 
-                                </div>
-                                <div class="col-sm-6 my-1">
-                                    <button id="saveButton" class="btn btn-outline-success w-100">Zapisz</button>
-                                </div>
-                            </div>
+                                    </div>
+                                    <div class="col-sm-6 my-1">
+                                        <button type="submit" disabled id="saveButton" class="btn btn-outline-success w-100">Zapisz</button>
+                                    </div>
+                                </form>
 
                         </div>
                     </div>
