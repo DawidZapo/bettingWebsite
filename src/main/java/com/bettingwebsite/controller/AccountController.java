@@ -25,9 +25,7 @@ public class AccountController {
     @GetMapping("/account")
     public String showAccount(Model model, @RequestParam(name = "success",required = false)Boolean success){
         User user = LoginController.getLogonUserAndSetAttributes(model);
-        if(success == null){
-            success = false;
-        }
+
         model.addAttribute("success", success);
         model.addAttribute("user", user);
         return "account";
@@ -40,15 +38,22 @@ public class AccountController {
                                  @RequestParam("userId")Long userId){
 
         User user = userService.findById(userId);
+        String userOldPassword = user.getPassword();
         if(!BCrypt.checkpw(oldPassword,user.getPassword())){
-            throw new RuntimeException("Old password does not match within the form");
+            return "redirect:/account?success=false";
         }
         if(!newPassword.equals(confirmPassword)){
-            throw new RuntimeException("New password and confirm password does not match");
+            return "redirect:/account?success=false";
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         userService.save(user);
 
-        return "redirect:/account?success=true";
+        if(!userOldPassword.equals(user.getPassword())){
+            return "redirect:/account?success=true";
+        }
+        else{
+            return "redirect:/account?success=false";
+        }
+
     }
 }

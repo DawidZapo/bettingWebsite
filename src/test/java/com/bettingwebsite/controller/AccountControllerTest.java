@@ -18,11 +18,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @TestPropertySource("/application-test.properties")
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -87,14 +89,13 @@ public class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("test /account endpoint")
+    @DisplayName("Test /account endpoint")
     @WithMockUser(username = "admin")
     public void testAccountEndPoint() throws Exception{
         MvcResult mvcResult = mockMvc.perform(get("/account"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("username"))
                 .andExpect(model().attributeExists("userDetails"))
-                .andExpect(model().attributeExists("success"))
                 .andExpect(model().attributeExists("user"))
                 .andReturn();
 
@@ -104,7 +105,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("test /account?success=true endpoint with argument")
+    @DisplayName("Test /account?success=true endpoint with argument")
     @WithMockUser(username = "admin")
     public void testAccountEndPointWithArgument() throws Exception{
         MvcResult mvcResult = mockMvc.perform(get("/account?success=true"))
@@ -117,5 +118,58 @@ public class AccountControllerTest {
 
         ModelAndView mav = mvcResult.getModelAndView();
         ModelAndViewAssert.assertViewName(mav, "account");
+    }
+
+    @Test
+    @DisplayName("Test /account/changePassword enpoint")
+    @WithMockUser(username = "admin")
+    public void testAccountChangePasswordEndpoint() throws Exception{
+
+        String oldPassword = userDao.findById(1L).getPassword();
+
+        MvcResult mvcResult = mockMvc.perform(post("/account/changePassword")
+                        .param("oldPassword","fun123")
+                        .param("newPassword", "halo")
+                        .param("confirmPassword","halo")
+                        .param("userId","1")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/account?success=true"))
+                .andReturn();
+        String newPassword = userDao.findById(1L).getPassword();
+
+        assertNotEquals(oldPassword,newPassword);
+    }
+
+    @Test
+    @DisplayName("Test /account/changePassword enpoint with bad old password")
+    @WithMockUser(username = "admin")
+    public void testAccountChangePasswordEndpointWithBadOldPassword() throws Exception{
+
+        MvcResult mvcResult = mockMvc.perform(post("/account/changePassword")
+                        .param("oldPassword","halo")
+                        .param("newPassword", "halo")
+                        .param("confirmPassword","halo")
+                        .param("userId","1")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/account?success=false"))
+                .andReturn();
+    }
+
+    @Test
+    @DisplayName("Test /account/changePassword enpoint with different passwords")
+    @WithMockUser(username = "admin")
+    public void testAccountChangePasswordEndpointWithDifferentPasswords() throws Exception{
+
+        MvcResult mvcResult = mockMvc.perform(post("/account/changePassword")
+                        .param("oldPassword","fun132")
+                        .param("newPassword", "halo")
+                        .param("confirmPassword","halooooo")
+                        .param("userId","1")
+                        .with(csrf()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/account?success=false"))
+                .andReturn();
     }
 }
