@@ -12,6 +12,8 @@ Technology stack:
 Java,
 Spring Boot,
 Jpa/Hibernate,
+JUnit,
+Maven,
 MySQL,
 JavaScript,
 HTML/CSS/Bootstrap,
