@@ -1,4 +1,4 @@
-# Family Betting website // under development
+# Family Betting website
 
 User-friendly web application tailored for family members who enjoy the thrill of sports betting in a safe and controlled environment. 
 With this web app, families can create private betting pools, allowing members to predict outcomes of various sporting events and compete against each other for pure fun.
